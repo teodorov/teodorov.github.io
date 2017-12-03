@@ -12,10 +12,10 @@ title : Ciprian Teodorov
 tagline: The Road Goes Ever On
 author :
   name : Ciprian Teodorov
-  email : blah@email.test
-  github : username
-  twitter : username
-  feedburner : feedname
+  email : ciprian.teodorov@gmail.com
+  github : teodorov
+#  twitter : username
+#  feedburner : feedname
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
