@@ -8,7 +8,7 @@ categories: formal
 published: true
 ---
 
-```haskell
+```Lean
 class IQueue (α : Type u) (Q : Type u → Type u) :=
   --!`queue operations`--
   -- create an empty queue
