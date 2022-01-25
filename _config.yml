@@ -203,10 +203,10 @@ jekyll-archives:
 
 scholar:
 
-  last_name: Einstein
-  first_name: [Albert, A.]
+  last_name: Teodorov
+  first_name: [Ciprian]
 
-  style: apa
+  style: ieee
   locale: en
 
   source: /_bibliography/

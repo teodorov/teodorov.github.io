@@ -91,6 +91,8 @@ then
 fi
 git checkout -b $DEPLOY_BRANCH
 
+curl "https://api.archives-ouvertes.fr/search/?q=authIdHal_i:9871&wt=bibtex&rows=1000" > _bibliograph/papers.bib
+
 # Build site
 bundle exec jekyll build
 
