@@ -90,9 +90,8 @@ then
   git branch -D $DEPLOY_BRANCH
 fi
 git checkout -b $DEPLOY_BRANCH
-pwd
-ls -lah
-curl "https://api.archives-ouvertes.fr/search/?q=authIdHal_i:9871&wt=bibtex&rows=1000" > _bibliograph/papers.bib
+
+curl "https://api.archives-ouvertes.fr/search/?q=authIdHal_i:9871&wt=bibtex&rows=1000" > _bibliography/papers.bib
 
 # Build site
 bundle exec jekyll build
