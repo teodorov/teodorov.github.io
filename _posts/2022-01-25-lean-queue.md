@@ -6,6 +6,7 @@ description: playing with typeclasses in lean
 tags: lean3
 categories: formal
 published: true
+comments: true
 ---
 
 In this post I want to cover a typeclass definition for a *simple queue*.
