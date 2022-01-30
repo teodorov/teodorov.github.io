@@ -2,7 +2,7 @@
 layout: post
 title: A Typeclass for Simple FIFO Queues
 date: 2022-01-25 20:00:00
-description: an example of a blog post with some code
+description: playing with typeclasses in lean
 tags: lean3
 categories: formal
 published: true
