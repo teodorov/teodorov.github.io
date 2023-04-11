@@ -14,6 +14,16 @@ presented & defended at *University of Western Britanny* on **november 28th, 201
 
 -[<font size=5> Manuscript PDF</font>](http://mocs-artefacts.ensta-bretagne.fr/papers/PhD/PhD_Teodorov.pdf)
 
+<br>
+#### Committee
+
+- Prof. Jacques-Olivier KLEIN, Université Paris Sud 11 -- *president of the jury*.
+- DR Dominique LAVENIER, IRISA Rennes -- *reviewer*.
+- Prof. Ian O'CONNOR, Ecole Centrale de Lyon -- *reviewer*.
+- Prof. Bernard POTTIER, Université de Bretagne Occidentale -- *Ph.D. supervisor*.
+- HDR Loïc LAGADEC, Université de Bretagne Occidentale -- *Ph.D. supervisor*.
+- MCF Catherine DEZAN, Université de Bretagne Occidentale -- *Ph.D. supervisor*.
+
 ***Abstract*** In the context where the traditional CMOS technology approaches its limits, some nanowire-based fabric proposals emerged, which all exhibit some common key characteristics. Among these, their bottom-up fabrication process leads to a regularity of assembly, which means the end of custom-made computational fabrics in favor of regular structures. Hence, research activities in this area, focus on structures conceptually similar to today’s reconfigurable PLA and/or FPGA architectures[165, 160]. A number of different fabrics and architectures are currently under investigation, e. g.CMOL[165], FPNI[160], NASIC[115]. These proof-of-concept architectures take into account some fabrication constraints and support fault-tolerance techniques. What is still missing is the ability to capitalize on these experiments while offering a one-stop shopping point for further research, especially at the physical-design level of the circuit design tool-flow. Sharing metrics, tools, and exploration capabilities is the next challenge to the nano-computing community.
 {: .justify}
 
