@@ -28,3 +28,8 @@ Ciprian TEODOROV received a PhD degree in Computer Science from the [University 
 During his PhD he created [R2D NASIC](http://dx.doi.org/10.1109/NANOARCH.2011.5941486), a nanoscale architectural template, based on the NASIC fabric, which enables arbitrary placement and routing at nanoscale. He also designed MoNaDe, a model-driven physical-design framework. MoNade enables agile and incremental exploration of the architecture/design-tools adequacy.
 
 [CV Overview](overview)
+
+#### Education
+
+- [Habilitation in Computer Science (French HDR)](/hdr), 2023, University of Western Britanny (UBO), Brest.
+- [Ph.D. in Computer Science](/phd), 2011, University of Western Britanny (UBO), Brest.
