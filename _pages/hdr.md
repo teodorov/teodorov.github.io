@@ -26,7 +26,7 @@ presented & defended at *ENSTA Bretagne* on monday, **april 3, 2023** at 14:00.
 - [Prof. Alain PLANTEC](https://scholar.google.fr/citations?user=pnT0X0YAAAAJ&hl=en&oi=ao), Université de Bretagne Occidentale, FR -- *examiner*.
 - [Emmanuel GAUDIN](https://linkedin.com/in/emmanuelgaudin), Founder & CEO, [PragmaDev](http://www.pragmadev.com/), Paris, FR -- *invited member*.
 
-<hr>
+![group_photo](/assets/img/group_photo.jpeg){:class="img-fluid rounded z-depth-2"}
 
 ***Abstract*** The formal verification community strives to prove the correctness of a specification using formal logic and mathematical proofs. The tremendous progress in computer-aided formal verification tools, along with an ever-growing number of success stories renders these methods essential in the system designer toolbox. However, with the advent of domain-specific models and languages, many formalisms are proposed for writing dynamic system specifications, each one adapted to the specific needs of the targeted domain. A new question emerges: How to bridge the gap between these domain-specific formalisms, geared toward domain experts, and the formal verification tools, geared towards mathematicians? One of the answers, ubiquitous in the literature, relies on using model transformations to syntactically translate the domain-specific model to the verification model. We argue that this approach is counterproduc, 8 Ph.D. candidates,antic multiplication, which requires equivalence proofs that can be hard to provide and maintain.
 {: .justify}
@@ -42,5 +42,3 @@ La communauté de la vérification formelle s'efforce de prouver la conformité 
 
 Dans ce manuscrit, je présente une nouvelle réponse au niveau sémantique développée, raffinée et évaluée au cours des 10 dernières années avec l'aide de 6 ingénieurs postdoctoraux, 8 candidats au doctorat et 12 projets collaboratifs. Cette approche, nommée G∀min∃, promet une architecture logicielle modulaire, compositionnelle et réutilisable permettant la conception d'une grande variété d'outils d'exploration du comportement. La brique de base de cette approche est une interface de niveau sémantique agnostique au langage, qui agit comme un pont entre la sémantique dynamique d'un langage spécifique au domaine et les outils d'analyse du comportement. Nous proposons ici une formalisation de l'interface ainsi que quelques opérateurs réutilisables pour la création d'outils d'analyse du comportement pour le débogage interactif, le contrôle de modèle et la surveillance de l'exécution. En plus de passer en revue près d'une décennie de recherches fructueuses, ce document me permet de présenter quelques nouvelles directions de recherche, qui, nous l'espérons, allégeront le poids de la création de nouveaux environnements de conception de spécifications, et rendront le processus de conception plus productif.
 {: .justify}
-
-![group_photo](/assets/img/group_photo.jpeg){:class="img-fluid rounded z-depth-2"}
