@@ -8,7 +8,7 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-presented & defended at *ENSTA Bretagne* on monday, **april 3, 2023** at 14:00.
+presented & defended at *ENSTA Bretagne* on **Monday, April 3, 2023** at 14:00.
 
 ## "G∀min∃: Exploring the Boundary Between Executable Specification Languages and Behavior Analysis Tools"
 
@@ -16,7 +16,7 @@ presented & defended at *ENSTA Bretagne* on monday, **april 3, 2023** at 14:00.
 [<font size=5> Slides PDF</font>](http://mocs-artefacts.ensta-bretagne.fr/papers/HDR/230402_HDR_Teodorov-slides.pdf){: .right}
 
 <br>
-#### Commitee
+#### Committee
 
 - [Prof. Frank SINGHOFF](http://beru.univ-brest.fr/~singhoff/), Université de Bretagne Occidentale, FR -- *president of the jury*.
 - [Prof. Frédéric BONIOL](https://www.linkedin.com/in/fr%C3%A9d%C3%A9ric-boniol-3977271a4/), ONERA Toulouse, FR -- *reviewer*.
@@ -28,10 +28,12 @@ presented & defended at *ENSTA Bretagne* on monday, **april 3, 2023** at 14:00.
 
 ![group_photo](/assets/img/group_photo.jpeg){:class="img-fluid rounded z-depth-2"}
 
-***Abstract*** The formal verification community strives to prove the correctness of a specification using formal logic and mathematical proofs. The tremendous progress in computer-aided formal verification tools, along with an ever-growing number of success stories renders these methods essential in the system designer toolbox. However, with the advent of domain-specific models and languages, many formalisms are proposed for writing dynamic system specifications, each one adapted to the specific needs of the targeted domain. A new question emerges: How to bridge the gap between these domain-specific formalisms, geared toward domain experts, and the formal verification tools, geared towards mathematicians? One of the answers, ubiquitous in the literature, relies on using model transformations to syntactically translate the domain-specific model to the verification model. We argue that this approach is counterproduc, 8 Ph.D. candidates,antic multiplication, which requires equivalence proofs that can be hard to provide and maintain.
+<br>
+
+***Abstract*** The formal verification community strives to prove the correctness of a specification using formal logic and mathematical proofs. The tremendous progress in computer-aided formal verification tools, along with an ever-growing number of success stories renders these methods essential in the system designer toolbox. However, with the advent of domain-specific models and languages, many formalisms are proposed for writing dynamic system specifications, each one adapted to the specific needs of the targeted domain. A new question emerges: How to bridge the gap between these domain-specific formalisms, geared toward domain experts, and the formal verification tools, geared towards mathematicians? One of the answers, ubiquitous in the literature, relies on using model transformations to syntactically translate the domain-specific model to the verification model. We argue that this approach is counterproductive leading to semantic multiplication, which requires equivalence proofs that can be hard to provide and maintain.
 {: .justify}
 
-In this dissertation, I present a new semantic-level answer developed, refined, and evaluated during the last 10 years with the help of 6 postdoctoral fellows, 8 PhD candidates, and 12 collaborative projects. This approach, named G∀min∃, promises a modular, compositional, and reusable software architecture allowing the design of a wide variety of behavior exploration tools. The core building block of this approach is a language-agnostic semantic-level interface, which acts as a bridge between the dynamic semantics of a domain-specific language and the behavior analysis tools. Here we propose a formalization of the interface along with some reusable operators for creating behavior analysis tools for interactive debugging, model-checking, and runtime monitoring. Besides reviewing almost a decade of fruitful research, this document allows me to introduce some new research directions, which hopefully will ease the burden of creating novel specification-design environments and render the design process more productive.
+In this dissertation, I present a new semantic-level answer developed, refined, and evaluated during the last 10 years with the help of 6 postdoctoral fellows, 8 Ph.D. candidates, and 12 collaborative projects. This approach, named G∀min∃, promises a modular, compositional, and reusable software architecture allowing the design of a wide variety of behavior exploration tools. The core building block of this approach is a language-agnostic semantic-level interface, which acts as a bridge between the dynamic semantics of a domain-specific language and the behavior analysis tools. Here we propose a formalization of the interface along with some reusable operators for creating behavior analysis tools for interactive debugging, model-checking, and runtime monitoring. Besides reviewing almost a decade of fruitful research, this document allows me to introduce some new research directions, which hopefully will ease the burden of creating novel specification-design environments and render the design process more productive.
 {: .justify}
 
 <hr>
