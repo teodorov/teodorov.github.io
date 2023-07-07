@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'From Zero to Model-Checking'
+title: 'From Zero to Model-Checking - Overview'
 description: Building a language-independent model-checker from scratch.
 tags: z2mc
 categories: formal
@@ -29,7 +29,7 @@ We will see:
 The plan is:
 
 1. [A] Graph **Traversals** -- [M] Explicit graph
-   1. DFS
+   1. BFS
    2. Iterative
    3. OnEntry callback --> see another blog entry for a more generic version
    4. Independent of the model `roots(); next()`
