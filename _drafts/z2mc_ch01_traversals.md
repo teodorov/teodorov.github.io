@@ -8,6 +8,14 @@ published: true
 comments: true
 ---
 
+## Foreword
+
+This book is intended as a hand-on introduction to formal verification by model-checking (mostly explicit-state), even though a more sophisticated reader might see opportunities for symbolic or mixed explicit-symbolic verification.
+
+After engaging with the content here a **reader interested in using formal verification** shall have the necessary background to understand deeply some of the existing model-checking tools: **TLA+**, SPIN, UPPAAL.
+
+After engaging with the content here a **reader working on language design** might be willing to try designing (and implementing) the semantics of the language through the piecewise relation abstraction, which offers a bridge between behavioral language semantics (seen as specifications) and behavioral verification tools.
+
 ## Graph Traversal
 
 In this chapter, we will introduce graphs and a graph traversal algorithm.
@@ -147,7 +155,7 @@ class RootedGraph:
     def neighbors(self, vertex): pass
 ```
 
-**NOTE**: By inheriting from ABC and adding the `@abstractmethod` annotation we can ensure that the RootedGraph abstract class cannot be instantiated directly.
+**NOTE:** By inheriting from ABC and adding the `@abstractmethod` annotation we can ensure that the RootedGraph abstract class cannot be instantiated directly.
 
 Python uses the duck-typing principle: *"If it walks like a duck and it quacks like a duck, then it must be a duck"*.
 Following this principle, in our case, that means that any object that implements the `roots(self)` and `next(self, vertex)` methods are considered **implicitly** as instances of the `RootedGraph` abstract class. Furthermore, we do not need to define the RootedGraph abstract class at all. Nevertheless doing so greatly improves the readability of the code, as the abstract class clearly defines the public API of any `RootedGraph` instance. To be even more explicit we can explicitly define the DictionaryRootedGraph class to be an instance of the `RootedGraph` abstract class.
@@ -235,6 +243,7 @@ breadthFirstSearch(graph, on_entry, opaque):
 ```
 
 <hr>
+
 ## Intensional Graphs: Hanoi Example
 
 ![Progress Overview](/assets/img/z2mc/overview_01_hanoi.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
@@ -243,11 +252,48 @@ Up until now, we have used only extensional graph representations. But there is 
 
 To make this section a bit concrete we will use the Tower of Hanoi game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.
 
+```python
+class Hanoi(TransitionRelation, AcceptingSet):
+    def __init__(self, nb_stacks=3, nb_disks=3):
+        self.nb_stacks = nb_stacks
+        self.nb_disks = nb_disks
+    
+    def roots(self):
+        return [HanoiConfiguration(self.nb_stacks, self.nb_disks)]
+
+    def neigbours(self, configuration):
+        neighbours = []
+        for i, source in enumerate(configuration.stacks):
+            if not len(source):
+                continue
+            disk = source[-1]
+            for j, target in enumerate(configuration.stacks):
+                if len(target) == 0 or disk < target[-1]:
+                    neighbour = copy.deepcopy(configuration)
+                    neighbour.stacks[i].pop() if len(source) else False
+                    neighbour.stacks[j].append(disk)
+                    neighbours.append(neighbour)
+        return neighbours
+
+    def solution(self, configuration):
+        for i, stack in enumerate(configuration.stacks):
+            if i < (self.nb_stacks-1) and len(stack):
+                return False
+            else:
+                if i < (self.nb_stacks-1):
+                    continue
+                else:
+                    print(f'i={i}')
+                    return all(stack[j] >= stack[j+1] for j in range(len(stack)-1))
+```
+
+
 **Practical situation:** Going beyond simple search. [Giddy, Jonathan P., and Reihaneh Safavi-Naini. "Automated cryptanalysis of transposition ciphers." The Computer Journal 37.5 (1994): 429-436.](https://academic.oup.com/comjnl/article-pdf/37/5/429/988918/370429.pdf)
 
 This is great, but, how did we get to this solution?
 
 <hr>
+
 ## Building the Trace
 
 ![Progress Overview](/assets/img/z2mc/overview_02.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
@@ -274,16 +320,310 @@ class ParentTracer(RootedGraph):
         return neighbours
 ```
 
+<hr>
+
+## Piecewise Relations
+
+![Progress Overview](/assets/img/z2mc/overview_03.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+The intensional graph description used in the previous section allowed us to economically encode a whole family of domain-specific graphs (ie. The graphs representing the valid moves allowed by the Tower of Hanoi puzzle).
+There are two downsides with this approach that we want to emphasize in this section:
+
+1. The rooted graph abstraction that we have used **abstracts over the graph edges**, which leads to an **imprecise encoding** of graphs with edge annotations. Different workarounds are still possible:
+   1. define another function `edge_data(source, target)->maybe(annotation)` that retrieves the annotation from any pair of related vertices. But this approach precludes multiple edges between two vertices (a,b,x) (a,b,y).
+   2. encode the graph of interest differently, ie push the edge annotation to the target vertex. But this can result in an exponential blowup in the resulting graph.
+2. The implementation of the `neighbours` function in the Tower of Hanoi example has **multiple responsibilities**:
+   1. *detect if a disk move is possible*
+   2. *create the target configuration/vertex*. Typically it is cheaper to create the target configuration by 
+      1. *copying* the source configuration
+      2. *changing* it according to the move considered
+
+To address these limitations we will first decompose the `neighbours` function in two parts:
+
+1. an `enabled: C → set A` function that enables to detect the transitions (edges) allowed in the current configuration.
+2. an `execute: A → C → set C` function that interprets an enabled transition to obtain the target configuration.
+
+This decomposition leads us to an abstraction closely resemblinng **piecewise functions**. In mathematics piecewise functions allow the definition of functions by parts, where each part is a function enabled under a specific condition. To ensure that the resulting **piecewise** definition is still a function the *set of conditions need to be mutually exclusive*. We will **not enforce this exclusivity constraint** which leads to the more generic **piecewise relation** abstraction. Furthermore, we also relax the **functional** constraint on the parts too. Thus we get to a very general definition of a **piecewise relation**, where each part itself is a relation, potentially defined piecewise itself.
+
+**Important:** Please note that both `enabled` and `execute` are functions with sets as codomains.
+
+Note that we can also define the predicate `enabled: A → C → bool`, which returns true if an action `A` is enabled in the configuration `C`.
+
+To simplify the manipulations these functions will be encapsulated in a new abstraction, which we name the SemanticTransitionRelation (STR).
+
+**side question:** Should we use RootedPiecewiseRelation instead of SemanticTransitionRelation?
+
+```python
+class STR:
+    def roots(self): pass
+    def enabled(self, configuration): pass
+    def execute(self, action, configuration): pass
+```
+
+To be able to reuse the algorithmic backend that we have already created, we need to somehow convert a STR to an RG abstraction. To achieve this, one approach is based on the [*Adapter design pattern*](https://en.wikipedia.org/wiki/Adapter_pattern). The **adapter**, named `STR2RG`, is another specialization of our `RootedGraph` abstraction that implements the RG API based on the STR API as follows:
+
+```python
+class STR2RG:
+    def __init__(self, anSTR):
+        self.str = anSTR
+    def roots(self):
+        return self.str.roots()
+    def neighbours(self, v):
+        enabled_actions = self.str.enabled(v)
+        targets = []
+        for a in enabled_actions:
+            targets += self.str.execute(a, v)
+        return targets
+```
+
+With this setup we can already model interesting systems. Consider for instance the following STR-based intensional graph description:
+
+```python
+    class ExampleSTR:
+        def roots(self):
+            return [0]
+        def enabled(self, configuration):
+            x = configuration
+            actions = []
+            if (x >= -2):
+                actions += [lambda x: [1]]
+            if (x > 1):
+                actions += [lambda x: [x]]
+            if (x >= 0):
+                actions += [lambda x: [-x] if x < 5 else [-x, x-1]]
+            return actions
+        def execute(self, action, configuration):
+            return action(configuration)
+```
+
+Note that in the previous examples, we compute the new configuration (`x'`) based on the previous value of x.
+
+```scala
+var x
+init ≜ 0
+next ≜ x' = 1      if x >= -2
+    ∨   x' = x      if x >   1
+    ∨   (    x' = -x     if true
+        ∨   x' = x-1    if x >   5) if x >= 0
+spec ≜ init ∧ ☐next
+```
+
+**Interesting side-note:** Following the syntax 'idea' in the previous listing we can get to the TLA+ syntax rather naturally.
+
+One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1.
+
+```scala
+var clock
+init ≜ clock = 0 
+     ∨ clock = 1
+tick ≜ clock' = 1 if clock = 0
+     ∨ clock' = 0 if clock = 1
+spec ≜ init ∧ ☐tick
+```
+
+`Flag Alice-Bob` Another more interesting example will be the following specification trying to solve the binary mutual exclusion problem between Alice and Bob.
+
+```scala
+var a, b
+init ≜ a = I ∧ b = I
+alice ≜ a' = W if a = I
+    ∨ a' = C if a = W ∧ b = I
+    ∨ a' = I if a = C
+
+bob ≜ b' = W if b = I
+    ∨ b' = C if b = W ∧ a = I
+    ∨ b' = I if b = C
+
+spec = init ∧ ☐(alice ∨ bob)
+```
+
+**Interesting side-note:** As long as we are not concerned by specification refinement it is OK to disable stuttering: completely for safety verification and partially for liveness (stutter only on deadlock).
+With stuttering disabled the one-bit clock specification will disallow the behaviors where the clock never ticks.
+```
+0 → 0 → 0 → 0 → 0 → ...
+1 → 1 → 1 → 1 → 1 → ...
+```
+
+### Exercises
+
+**Exercise 1:** Encode the previous specifications using the STR (like the ExampleSTR).
+
+**Exercise 2:** Connect the STR2RG, ParentTracer and Reachability algorithm to implement a simple predicate verification setup.
+
+**Exercise 3:** Use the verification setup to verify the mutual exclusion property `[]! (a = C ∧ b = C)` on the following specification (`Simple Alice-Bob`):
+
+```scala
+var a, b
+init ≜ a = I ∧ b = I
+alice ≜ a' = C if a = I
+    ∨ a' = I if a = C
+
+bob ≜ b' = C if b = I
+    ∨ b' = I if b = C
+
+spec = init ∧ ☐(alice ∨ bob)
+```
+
+**Exercise 4:** Use the verification setup to verify that mutual exclusion property on the `Flag Alice-Bob` specification.
+
+**Exercise 5:** Verify that `Simple Alice-Bob` and `Flag Alice-Bob` are deadlock-free. How can we encode the deadlock-freedom property?
 
 <hr>
-![Progress Overview](/assets/img/z2mc/overview_03.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
-<hr>
+
+## A Simple Python eDSL for Piecewise Relations
+
 ![Progress Overview](/assets/img/z2mc/overview_04.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+Implementing the STR directly works, but looking at our last specifications using the made-up language we see that there is a certain syntactical pollution. To address this issue in this chapter we will create a simple **e**mbedded **D**omain-**S**pecific **L**anguage (eDSL) in Python.
+
+**Note:** Creating an external DSL for our specification language is outside the scope of this work. The interested reader is nevertheless encouraged to try. Such a reader is encouraged to study the TLA+ syntax to find other (rather inspired) operators, which can further simplify the syntax. Readers keen on the graphical syntax could study UML statecharts in conjunction with the AnimUML specification and verification environment.
+
+Our eDSL will be named **Soup**, because it will encode the specifications as a `soup` of `pieces` necessary to encode the piecewise relations.
+
+The first ingredient, which will encode the valuation of the variables used in a specification is identical to the `Configuration` concept that we have used for generalizing the `Vertex` types in the graph abstraction.
+
+For the one-bit clock example we will have:
+
+```python
+class OneBitClockConfig:
+    def __init__(self, value):
+        self.clock = value
+
+    def __hash__(self):
+        return hash(self.clock)
+
+    def __eq__(self, other):
+        if not isinstance(other, OneBitClockConfig):
+            return False
+        return self.clock == other.clock
+
+    def __repr__(self):
+        return f'clock={self.clock}'
+```
+
+The `initialization` part of the specification can be decomposed around the disjunctions. Each term in the disjunction will become a unique configuration. Moreover, each such term is required to initialize all the variables. Thus the `initialization` of the one-bit clock will be defined as follows:
+
+```python
+init = [OneBitClockConfig(0), OneBitClockConfig(1)]
+```
+
+Each piece of the relation will be encoded as two lambdas encapsulated in a `LambdaPiece` object, defined as follows:
+
+```python
+class LambdaPiece:
+    def __init__(self, name='', guard, generator):
+        self.name = name
+        self.guard = guard
+        self.generator = generator
+
+    def __eq__(self, other):
+        if not isinstance(other, LambdaPiece):
+            return False
+        return self.name == other.name and self.guard == other.guard and self.generator == other.generator
+```
+
+For the one-bit clock specification, we get:
+
+```python
+toOne  = LambdaPiece('toOne',  lambda c: OneBitClockConfig(1), lambda c: c.clock == 0)
+toZero = LambdaPiece('toZero', lambda c: OneBitClockConfig(0), lambda c: c.clock == 1 )
+```
+
+The specification is captured in a `Soup` instance, defined as follows:
+
+```python
+class Soup:
+    def __init__(self, initial=[], pieces=[]):
+        self.initial = initial
+        self.pieces = pieces
+
+    def add(self, name, guard, generator):
+        self.extend(LambdaPiece(name, guard, generator))
+
+    def extend(self, beh):
+        if isinstance(beh, LambdaPiece):
+            self.pieces.append(beh)
+        else:
+            self.pieces.extend(beh)
+```
+
+For the one-bit clock specification, the soup is:
+
+```python
+one_bit_clock_spec = Soup(init, [toOne, toZero])
+```
+
+To interpret the soup as a piecewise relation, the next step is to implement the semantics as follows:
+
+```python
+class RootedPiecewiseRelationSemantics(SemanticTransitionRelation):
+    def __init__(self, soup):
+        self.soup = soup
+
+    def initial(self):
+        return self.soup.initial
+
+    def actions(self, configuration):
+        return list(filter(lambda ga: ga.guard(configuration), self.soup.pieces))
+
+    def execute(self, action, configuration):
+        target = copy.deepcopy(configuration)
+        the_output = action.generator(target)
+        return the_output
+```
+
+Note that in the implementation of the `execute` function we perform a **deepcopy**. Is this necessary? Knowing that the generator lambda produces a new configuration each time. Explain and give an example where this is necessary.
+
+By the way, the one-bit specification can be even shorter:
+
+```python
+one_bit_clock_spec = Soup(
+    [0, 1],
+    [
+        LambdaPiece('toOne',  lambda c: 1, lambda c: c.clock == 0),
+        LambdaPiece('toZero', lambda c: 0, lambda c: c.clock == 1)
+    ]
+)
+```
+
+Why does it work? Can you explain why we do not *strictly* need a `Configuration` object in this case?
+
+It can be rather similar to the spec in the previous chapter if written as follows:
+
+```python
+init = [0, 1]
+tick = [
+        LambdaPiece(lambda c: 1, lambda c: c.clock == 0),
+        LambdaPiece(lambda c: 0, lambda c: c.clock == 1)]
+spec = Soup(init, tick)
+```
+
+### Exercises
+
+**Exercise 1:** Encode the specifications from the previous chapter using the Soup language.
+**Exercise 2:** Create a predicate verification tool for the Soup language.
+
+**Exercise 3:** Verify the mutual exclusion property on the Soup-based `Simple Alice-Bob` specification.
+
+**Exercise 4:** Verify the mutual exclusion property on the Soup-based `Flag Alice-Bob` specification.
+
+**Exercise 5:** Verify that `Simple Alice-Bob` and `Flag Alice-Bob` are deadlock-free.
+
+**Make sure that the results match the ones obtained in the previous chapter**. If they don't match find and fix the bugs.
+
+**Exercise 6:** Encode the Hanoi problem using the Soup language and use the predicate verification to find the solution.
+
 <hr>
+
+## More Expressive Properties Through Dependent Piecewise Relations
+
 ![Progress Overview](/assets/img/z2mc/overview_05.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
 <hr>
+
+## Computing the Intersection Between the System and the Property
+
 ![Progress Overview](/assets/img/z2mc/overview_06.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
-<hr>
 
 ```python
 class StepSynchronousProduct(SemanticTransitionRelation):
@@ -328,12 +668,26 @@ class StepSynchronousProduct(SemanticTransitionRelation):
         return step[2], target
 ```
 
+<hr>
 
+## Nested Reachability for Liveness Verification
 
 ![Progress Overview](/assets/img/z2mc/overview_07.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
 <hr>
+
+## Improving Liveness Verification Performance
+
 ![Progress Overview](/assets/img/z2mc/overview_08.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+Implement the following state-of-the-art algorithms.
+
+![Buchi Algorithms](/assets/img/z2mc/buchi_algo_hierarchy.svg)
+
 <hr>
+
+## Seeing the Algorithms as Dependent Specifications
+
 ![Progress Overview](/assets/img/z2mc/overview_09.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
 
 <hr>
