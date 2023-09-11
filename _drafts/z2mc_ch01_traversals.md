@@ -476,7 +476,7 @@ spec = init ∧ ☐(alice ∨ bob)
 
 Implementing the STR directly works, but looking at our last specifications using the made-up language we see that there is a certain syntactical pollution. To address this issue in this chapter we will create a simple **e**mbedded **D**omain-**S**pecific **L**anguage (eDSL) in Python.
 
-**Note:** Creating an external DSL for our specification language is outside the scope of this work. The interested reader is nevertheless encouraged to try. Such a reader is encouraged to study the TLA+ syntax to find other (rather inspired) operators, which can further simplify the syntax. Readers keen on the graphical syntax could study UML statecharts in conjunction with the AnimUML specification and verification environment.
+**Note:** Creating an external DSL for our specification language is outside the scope of this work. The interested reader is nevertheless encouraged to try. Such a reader is encouraged to study the TLA+ syntax to find other (rather inspired) operators, which can further simplify the syntax. Readers keen on the graphical syntax could study UML statecharts in conjunction with the AnimUML specification and verification environment to get another more graphical perspective.
 
 Our eDSL will be named **Soup**, because it will encode the specifications as a `soup` of `pieces` necessary to encode the piecewise relations.
 
@@ -560,10 +560,10 @@ class RootedPiecewiseRelationSemantics(SemanticTransitionRelation):
     def __init__(self, soup):
         self.soup = soup
 
-    def initial(self):
+    def roots(self):
         return self.soup.initial
 
-    def actions(self, configuration):
+    def enabled(self, configuration):
         return list(filter(lambda ga: ga.guard(configuration), self.soup.pieces))
 
     def execute(self, action, configuration):
@@ -580,8 +580,8 @@ By the way, the one-bit specification can be even shorter:
 one_bit_clock_spec = Soup(
     [0, 1],
     [
-        LambdaPiece('toOne',  lambda c: 1, lambda c: c.clock == 0),
-        LambdaPiece('toZero', lambda c: 0, lambda c: c.clock == 1)
+        LambdaPiece('toOne',  lambda c: 1, lambda c: c == 0),
+        LambdaPiece('toZero', lambda c: 0, lambda c: c == 1)
     ]
 )
 ```
@@ -593,8 +593,8 @@ It can be rather similar to the spec in the previous chapter if written as follo
 ```python
 init = [0, 1]
 tick = [
-        LambdaPiece(lambda c: 1, lambda c: c.clock == 0),
-        LambdaPiece(lambda c: 0, lambda c: c.clock == 1)]
+        LambdaPiece(lambda c: 1, lambda c: c == 0),
+        LambdaPiece(lambda c: 0, lambda c: c == 1)]
 spec = Soup(init, tick)
 ```
 
@@ -611,13 +611,45 @@ spec = Soup(init, tick)
 
 **Make sure that the results match the ones obtained in the previous chapter**. If they don't match find and fix the bugs.
 
-**Exercise 6:** Encode the Hanoi problem using the Soup language and use the predicate verification to find the solution.
+**Exercise 6:** Encode the Hanoi problem using the Soup language and use the Soup predicate verifier to find the solution.
+
+**Exercise 7:** **TODO:** German traffic light and history management.
 
 <hr>
 
 ## More Expressive Properties Through Dependent Piecewise Relations
 
 ![Progress Overview](/assets/img/z2mc/overview_05.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+Until now our verification tasks were limited to predicate verification. To go further we need to extend the expressivity of the "property" language, which was restricted to simple state predicates.
+
+
+```python
+class RootedPiecewiseRelationDependentSemantics:
+
+    def __init__(self, soup):
+        self.soup = soup
+
+    def roots(self):
+        return self.soup.initial
+
+    def enabled(self, input, configuration):
+        return list(filter(lambda ga: ga.guard(input, configuration), self.soup.pieces))
+
+    def execute(self, action, input, configuration):
+        target = copy.deepcopy(configuration)
+        the_output = action.generator(input, target)
+        return the_output
+```
+
+
+### Step Predicates: Looking at execution steps
+
+Expressing conditions on execution steps expands the possibilities for debugging. First of all, the step breakpoints allow us to reason about the action between the configurations. In their simplest form, they can allow stopping the execution when a named action is reached, `|action("toOne")|`.
+
+Furthermore, the step breakpoints allow reasoning on the delta changes between two consecutive configurations of a behavior (before and after an action). For instance, this will allow us to detect the rising edge of the one-bit clock, `|clock=0 && clock'=1|`.
+
+### Safety Properties: Looking into the Past
 
 <hr>
 
@@ -673,6 +705,8 @@ class StepSynchronousProduct(SemanticTransitionRelation):
 ## Nested Reachability for Liveness Verification
 
 ![Progress Overview](/assets/img/z2mc/overview_07.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+### Liveness Properties: Thinking about the Future
 
 <hr>
 
