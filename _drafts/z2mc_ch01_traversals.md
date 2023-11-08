@@ -10,11 +10,16 @@ comments: true
 
 ## Foreword
 
-This book is intended as a hand-on introduction to formal verification by model-checking (mostly explicit-state), even though a more sophisticated reader might see opportunities for symbolic or mixed explicit-symbolic verification.
+This sequel is intended as a hands-on introduction to formal verification by model-checking (mostly explicit-state), even though a more sophisticated reader might see opportunities for symbolic or mixed explicit-symbolic verification.
 
 After engaging with the content here a **reader interested in using formal verification** shall have the necessary background to understand deeply some of the existing model-checking tools: **TLA+**, SPIN, UPPAAL.
 
 After engaging with the content here a **reader working on language design** might be willing to try designing (and implementing) the semantics of the language through the piecewise relation abstraction, which offers a bridge between behavioral language semantics (seen as specifications) and behavioral verification tools.
+
+## Games
+[Teaching Model Checking via Games and Puzzles](https://fmfun.github.io/Papers-2019/Schlingloff.pdf)
+[Model Checking Games and a Genome Sequence Search](https://iopscience.iop.org/article/10.1088/1742-6596/1679/3/032020)
+[Principles of Model Checking: Regular Properties](https://www.cs.colostate.edu/~france/CS614/Slides/ModelCheckingChapter4.pdf)
 
 ## Graph Traversal
 
@@ -409,8 +414,9 @@ spec ≜ init ∧ ☐next
 ```
 
 **Interesting side-note:** Following the syntax 'idea' in the previous listing we can get to the TLA+ syntax rather naturally.
+Existential quantification `∃ x ∈ S, condition` ↦ S detect: λ x, condition
 
-One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1.
+One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1. 
 
 ```scala
 var clock
@@ -617,11 +623,46 @@ spec = Soup(init, tick)
 
 <hr>
 
-## More Expressive Properties Through Dependent Piecewise Relations
+## More Expressive Properties Through Dependent Semantics
 
 ![Progress Overview](/assets/img/z2mc/overview_05.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
 
-Until now our verification tasks were limited to predicate verification. To go further we need to extend the expressivity of the "property" language, which was restricted to simple state predicates.
+Until now our verification tasks were limited to predicate verification. To go further we need to extend the expressivity of the "property" language, which was restricted to simple state predicates. To achieve this we will first extend our semantical framework to allow the creation of dependencies between different semantics. The discussion in this chapter is based on the Soup language, which is extended to allow the design of dependent specifications.
+
+One case where dependent semantics can came in handy is specifying the behaviour of a minute clock based on the ticks of the one-bit clock. The minute variable should be incremented on the rising edge of the one-bit clock.
+
+```scala
+var minutes
+init ≜ minutes ∈ {1..60}             -- note the non-deterministic assignement
+tick ≜ minutes' = (minutes + 1) % 60 + 1 if clock = 0 ∧ clock' = 1
+spec ≜ init ∧ ☐(tick ∨ minutes' = minutes)
+```
+
+![step-dependent behavior](/assets/img/z2mc/dependent_trace_step.png){: style="display:block; margin-left:auto; margin-right:auto"}
+
+Another example is the hour clock based on the minute clock.
+
+```scala
+var hour
+init ≜ hour ∈ {1..12}             -- note the non-deterministic assignement
+tick ≜ hour' = (hour + 1) % 12 + 1 if minutes = 60
+spec ≜ init ∧ ☐(tick ∨ hour' = hour)
+```
+
+If we are looking at these previous specification they seem incomplete. The minute clock specification defines its behaviour relatively to another behavior, from which it can extract a notion of `clock`. The name `clock` is used in the minute-clock but its behaviour is never defined.
+
+![dependent semantics example](/assets/img/z2mc/dependent_semantics_example.png){: style="display:block; margin-left:auto; margin-right:auto"}
+
+We define a dependent semantics as a semantics that requires some additional input (of type `I`), besides the current configuration (of type `C`), to:
+
+1. decide what is the set of enabled actions. If The `actions` function signature becomes `actions: I → C → set A`.
+2. compute the target configuration set, during the execution of an action. The `execute` signature becomes `execute: A → I → C → set C`.
+
+Now that we have an input-dependent semantics, we can define an output producing semantics to improve the symmetry of our design. Such a semantics should produce an output during the execution of a step, in such a way that is possible to connect it to the an input-dependent semantics. To achieve this, we extend the signature of the `execute` function: `execute: A → I → C → set (O × C)`. During the execution of an action an output `O` is produced, besides the new configuration.
+
+With these two ideas our semantically framework evolves, to something very similar to Mealy abstract machines. The execution step is dependent on the current configuration, and the input.  Action execution effectivelly computes the next comfiguration and the output. Thus a step in the semantics state-space becomes:
+
+![io semantics step](/assets/img/z2mc/io_step.png){: style="display:block; margin-left:auto; margin-right:auto"}
 
 
 ```python
@@ -643,19 +684,95 @@ class RootedPiecewiseRelationDependentSemantics:
 ```
 
 
-### Step Predicates: Looking at execution steps
 
-Expressing conditions on execution steps expands the possibilities for debugging. First of all, the step breakpoints allow us to reason about the action between the configurations. In their simplest form, they can allow stopping the execution when a named action is reached, `|action("toOne")|`.
+```python
+class ToStepOutputSemantics:
 
-Furthermore, the step breakpoints allow reasoning on the delta changes between two consecutive configurations of a behavior (before and after an action). For instance, this will allow us to detect the rising edge of the one-bit clock, `|clock=0 && clock'=1|`.
+    def __init__(self, subject):
+        self.subject = subject
 
-### Safety Properties: Looking into the Past
+    def roots(self):
+        return self.subject.initial
+
+    def enabled(self, configuration):
+        return self.subject.enabled
+
+    def execute(self, action, configuration):
+        the_targets = self.subject.execute(action, configuration)
+        
+        return list(map(lambda t: ((configuration, action, t), t), the_targets))
+```
 
 <hr>
 
 ## Computing the Intersection Between the System and the Property
 
 ![Progress Overview](/assets/img/z2mc/overview_06.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
+
+### Safety Properties: Looking into the Past
+
+### Theoretical approach
+
+1. Collect the atomic propositions
+2. Compute the Kripke structure of the state-space
+3. Convert the Kripke structure to NFA.
+4. Compose the system NFA with the property NFA
+
+### Let the property compute the Kripke interpretation
+
+1. Convert the state-space to a NFA
+2. Compose the system NFA with the property NFA
+
+### Dynamic Composition of the System with the Property
+
+1. Dynamically obtain an NFA interpretation of the system during the composition.
+
+```python
+class ConfigurationSynchronousProduct(SemanticTransitionRelation):
+    def __init__(self, lhs, rhs):
+        self.lhs = lhs
+        self.rhs = rhs
+
+    def initial(self):
+        return list(map(lambda c: (None, c), self.rhs.initial()))
+
+    def actions(self, source):
+        synchronous_actions = []
+        lhs_source, rhs_source = source
+        if source[0] is None:
+            for target in self.lhs.initial():
+                self.get_synchronous_actions(target, rhs_source, synchronous_actions)
+            return synchronous_actions
+        # get all lhs actions
+        lhs_actions = self.lhs.actions(lhs_source)
+        number_of_actions = len(lhs_actions)
+        for lhs_a in lhs_actions:
+            _, target = self.lhs.execute(lhs_a, lhs_source)
+            if target is None:
+                number_of_actions -= 1
+            self.get_synchronous_actions(target, rhs_source, synchronous_actions)
+
+        # if number_of_actions == 0:
+        #     self.get_synchronous_actions(kripke_source, buchi_source, synchronous_actions)
+        return synchronous_actions
+
+    def get_synchronous_actions(self, lhs_config, rhs_config, io_synchronous_actions):
+        rhs_actions = self.rhs.actions(lhs_config, rhs_config)
+        io_synchronous_actions.extend(map(lambda ra: (lhs_config, ra), rhs_actions))
+
+    def execute(self, action, configuration):
+        lhs_target, rhs_action = action
+        _, rhs_source = configuration
+        return kripke_target, self.rhs.execute(rhs_action, lhs_target, rhs_source)
+```
+
+### Step Predicates: Looking at execution steps
+
+Expressing conditions on execution steps expands the possibilities for debugging. First of all, the step breakpoints allow us to reason about the action between the configurations. In their simplest form, they can allow stopping the execution when a named action is reached, `|action("toOne")|`.
+
+Furthermore, the step breakpoints allow reasoning on the delta changes between two consecutive configurations of a behavior (before and after an action). For instance, this will allow us to detect the rising edge of the one-bit clock, `|clock=0 && clock'=1|`.
+
+
 
 ```python
 class StepSynchronousProduct(SemanticTransitionRelation):
