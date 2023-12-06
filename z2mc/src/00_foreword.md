@@ -1,3 +1,6 @@
+
+![02MC](/assets/img/z2mc/02MC.png)
+
 # Foreword
 
 This sequel is intended as a hands-on introduction to formal verification by model-checking (mostly explicit-state), even though a more sophisticated reader might see opportunities for symbolic or mixed explicit-symbolic verification.
