@@ -238,43 +238,48 @@ breadthFirstSearch(graph, on_entry, opaque):
 
 Up until now, we have used only extensional graph representations. But there is no fundamental limit precluding us from using also intensional graph representations. These are graphs that are defined by giving a procedure that can be followed to obtain the graph dynamically on request. At this point, we will start to see the power of our query-based graph manipulations. Here instead of enumerating all the vertices and edges of the graph, we will provide **smart** implementation of the `roots` and `neighbors` methods to generate *special* graphs programmatically that will then be analyzed by our algorithms.
 
-To make this section a bit concrete we will use the Tower of Hanoi game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.
+To make this section a bit concrete we will create a NBits game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.
 
 ```python
-class Hanoi(TransitionRelation, AcceptingSet):
-    def __init__(self, nb_stacks=3, nb_disks=3):
-        self.nb_stacks = nb_stacks
-        self.nb_disks = nb_disks
-    
+class NBits:
+    def __init__(self, n, ini: list):
+        self.n = n
+        self.ini = ini
+        self.accepting = accepting
+
     def roots(self):
-        return [HanoiConfiguration(self.nb_stacks, self.nb_disks)]
+        return self.ini
 
-    def neigbours(self, configuration):
-        neighbours = []
-        for i, source in enumerate(configuration.stacks):
-            if not len(source):
-                continue
-            disk = source[-1]
-            for j, target in enumerate(configuration.stacks):
-                if len(target) == 0 or disk < target[-1]:
-                    neighbour = copy.deepcopy(configuration)
-                    neighbour.stacks[i].pop() if len(source) else False
-                    neighbour.stacks[j].append(disk)
-                    neighbours.append(neighbour)
-        return neighbours
-
-    def solution(self, configuration):
-        for i, stack in enumerate(configuration.stacks):
-            if i < (self.nb_stacks-1) and len(stack):
-                return False
+    def neighbors(self, configuration: int):
+        targets = []
+        for i in range(self.n):
+            if ((configuration >> i) & 1) > 0:
+                target = configuration & ~(1 << i)
             else:
-                if i < (self.nb_stacks-1):
-                    continue
-                else:
-                    print(f'i={i}')
-                    return all(stack[j] >= stack[j+1] for j in range(len(stack)-1))
+                target = configuration | (1 << i)
+            targets.append(target)
+        return targets
 ```
 
+Now we have these steps to follow:
+
+1. Define what is a configuration
+   1.  ```def __eq__(self, other):```
+   2.  ```def __hash__(self):```
+2. Define the rooted graph API
+   1. what is the list of roots?
+   2. write an algorithm that generates the neighbors of a given configuration
+3. Define the query
+
+```python
+if __name__ == '__main__':
+    nbits = NBits(10, [0])
+    (target, k) = bfsSearch(nbits, lambda x: x == 5)
+```
+
+**Exercise:**
+
+- Implement Tower of Hanoi Game
 
 **Practical situation:** Going beyond simple search. [Giddy, Jonathan P., and Reihaneh Safavi-Naini. "Automated cryptanalysis of transposition ciphers." The Computer Journal 37.5 (1994): 429-436.](https://academic.oup.com/comjnl/article-pdf/37/5/429/988918/370429.pdf)
 

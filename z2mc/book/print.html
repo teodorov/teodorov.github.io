@@ -325,40 +325,50 @@ Run the previous reachability algorithm on this graph. If we have a relation <co
 <h2 id="intensional-graphs-hanoi-example"><a class="header" href="#intensional-graphs-hanoi-example">Intensional Graphs: Hanoi Example</a></h2>
 <p><img src="/assets/img/z2mc/overview_01_hanoi.png" alt="Progress Overview" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
 <p>Up until now, we have used only extensional graph representations. But there is no fundamental limit precluding us from using also intensional graph representations. These are graphs that are defined by giving a procedure that can be followed to obtain the graph dynamically on request. At this point, we will start to see the power of our query-based graph manipulations. Here instead of enumerating all the vertices and edges of the graph, we will provide <strong>smart</strong> implementation of the <code>roots</code> and <code>neighbors</code> methods to generate <em>special</em> graphs programmatically that will then be analyzed by our algorithms.</p>
-<p>To make this section a bit concrete we will use the Tower of Hanoi game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.</p>
-<pre><code class="language-python">class Hanoi(TransitionRelation, AcceptingSet):
-    def __init__(self, nb_stacks=3, nb_disks=3):
-        self.nb_stacks = nb_stacks
-        self.nb_disks = nb_disks
-    
+<p>To make this section a bit concrete we will create a NBits game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.</p>
+<pre><code class="language-python">class NBits:
+    def __init__(self, n, ini: list):
+        self.n = n
+        self.ini = ini
+        self.accepting = accepting
+
     def roots(self):
-        return [HanoiConfiguration(self.nb_stacks, self.nb_disks)]
+        return self.ini
 
-    def neigbours(self, configuration):
-        neighbours = []
-        for i, source in enumerate(configuration.stacks):
-            if not len(source):
-                continue
-            disk = source[-1]
-            for j, target in enumerate(configuration.stacks):
-                if len(target) == 0 or disk &lt; target[-1]:
-                    neighbour = copy.deepcopy(configuration)
-                    neighbour.stacks[i].pop() if len(source) else False
-                    neighbour.stacks[j].append(disk)
-                    neighbours.append(neighbour)
-        return neighbours
-
-    def solution(self, configuration):
-        for i, stack in enumerate(configuration.stacks):
-            if i &lt; (self.nb_stacks-1) and len(stack):
-                return False
+    def neighbors(self, configuration: int):
+        targets = []
+        for i in range(self.n):
+            if ((configuration &gt;&gt; i) &amp; 1) &gt; 0:
+                target = configuration &amp; ~(1 &lt;&lt; i)
             else:
-                if i &lt; (self.nb_stacks-1):
-                    continue
-                else:
-                    print(f'i={i}')
-                    return all(stack[j] &gt;= stack[j+1] for j in range(len(stack)-1))
+                target = configuration | (1 &lt;&lt; i)
+            targets.append(target)
+        return targets
 </code></pre>
+<p>Now we have these steps to follow:</p>
+<ol>
+<li>Define what is a configuration
+<ol>
+<li><code>def __eq__(self, other):</code></li>
+<li><code>def __hash__(self):</code></li>
+</ol>
+</li>
+<li>Define the rooted graph API
+<ol>
+<li>what is the list of roots?</li>
+<li>write an algorithm that generates the neighbors of a given configuration</li>
+</ol>
+</li>
+<li>Define the query</li>
+</ol>
+<pre><code class="language-python">if __name__ == '__main__':
+    nbits = NBits(10, [0])
+    (target, k) = bfsSearch(nbits, lambda x: x == 5)
+</code></pre>
+<p><strong>Exercise:</strong></p>
+<ul>
+<li>Implement Tower of Hanoi Game</li>
+</ul>
 <p><strong>Practical situation:</strong> Going beyond simple search. <a href="https://academic.oup.com/comjnl/article-pdf/37/5/429/988918/370429.pdf">Giddy, Jonathan P., and Reihaneh Safavi-Naini. &quot;Automated cryptanalysis of transposition ciphers.&quot; The Computer Journal 37.5 (1994): 429-436.</a></p>
 <p>This is great, but, how did we get to this solution?</p>
 <hr>
