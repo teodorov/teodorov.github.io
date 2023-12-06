@@ -1,0 +1,427 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 1: Traversals - From Zero to Model-Checking</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme && theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar && sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="00_foreword.html"><strong aria-hidden="true">1.</strong> Foreword</a></li><li class="chapter-item expanded "><a href="01_traversals.html" class="active"><strong aria-hidden="true">2.</strong> Chapter 1: Traversals</a></li><li class="chapter-item expanded "><a href="02_piecewise_relations.html"><strong aria-hidden="true">3.</strong> Chapter 2: Piecewise Relations</a></li><li class="chapter-item expanded "><a href="03_soup_dsl.html"><strong aria-hidden="true">4.</strong> Chapter 3: Soup DSL</a></li><li class="chapter-item expanded "><a href="04_dependent_semantics.html"><strong aria-hidden="true">5.</strong> Chapter 4: Dependent Semantics</a></li><li class="chapter-item expanded "><a href="05_synchronous_composition.html"><strong aria-hidden="true">6.</strong> Chapter 5: Synchronous Composition</a></li><li class="chapter-item expanded "><a href="06_liveness_verification.html"><strong aria-hidden="true">7.</strong> Chapter 6: Liveness Verification</a></li><li class="chapter-item expanded "><a href="07_algorithms_are_dependent.html"><strong aria-hidden="true">8.</strong> Chapter 7: Algorithms are Dependent</a></li><li class="chapter-item expanded "><a href="08_underapproximations.html"><strong aria-hidden="true">9.</strong> Chapter 8: Underapproximations</a></li><li class="chapter-item expanded "><a href="09_conclusion.html"><strong aria-hidden="true">10.</strong> Conclusion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">From Zero to Model-Checking</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="graph-traversal"><a class="header" href="#graph-traversal">Graph Traversal</a></h1>
+<p><strong>Principles</strong>:</p>
+<ul>
+<li>Isolate the algorithms from the data structures they operate on.</li>
+<li>Explicitly state the hypotheses under which an algorithm works. And build up bridges toward satisfying those hypotheses.</li>
+</ul>
+<p>In this chapter, we will introduce graphs and a graph traversal algorithm.
+We will keep it as simple as possible since the concepts here are well-known with rich literature.</p>
+<p><img src="/assets/img/z2mc/overview_01.png" alt="Progress Overview" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<ol>
+<li>Graph and Graph Representation</li>
+<li>[A] Graph <strong>Traversals</strong> -- [M] Explicit graph</li>
+<li>BFS</li>
+<li>Iterative</li>
+<li>Independent of the model <code>roots(); next()</code></li>
+<li>OnEntry callback --&gt; See another blog entry for a more generic version</li>
+</ol>
+<h2 id="a-rooted-graph-and-an-explicit-graph-data-structure"><a class="header" href="#a-rooted-graph-and-an-explicit-graph-data-structure">A Rooted Graph and an Explicit Graph Data Structure</a></h2>
+<p>A graph is defined as a tuple <code>G=(V, E)</code> where <code>V</code> is an arbitrary set of vertices, and <code>E</code> is a binary relation between the elements in <code>V</code>.
+For technical reasons, that will become apparent later, we will allow both self-loops and duplicate edges.
+For our purposes, we enrich the previous graph definition with <code>R ⊆ V</code> the multiset of roots of the graph. The roots of a graph are the vertices that provide access to the connected components of the graph. Sometimes <code>R</code> can be just a set, however, the more relaxed multiset concept allows for simpler, less constrained implementations (a list of nodes for instance).
+Thus a rooted graph <code>RG</code> is defined as <code>RG=(V, E, R)</code>.</p>
+<h3 id="dictionary-based-rooted-graph"><a class="header" href="#dictionary-based-rooted-graph">Dictionary-based Rooted Graph</a></h3>
+<p>To make it simple, we will represent the rooted graph structure by encoding the graph as an adjacency list using a <a href="https://docs.python.org/3.11/library/stdtypes.html#mapping-types-dict">dictionary</a>.
+The keys of the dictionary will be the vertices of the graph. To each vertex we will associate a <a href="https://docs.python.org/3.11/library/stdtypes.html#list">list</a> of nodes, which are directly reachable from the vertex.</p>
+<pre><code class="language-python">graph = {
+  1: [2, 3],
+  2: [3, 4]
+}
+</code></pre>
+<p>To obtain the rooted graph structure we complement the dictionary with another list of vertices, the roots.</p>
+<pre><code class="language-python">roots = [1, 2].
+</code></pre>
+<p>The rooted graph structure is then obtained by encapsulating these to fields in an object. Let's first define a DictionaryRootedGraph class, which allows building the objects that we need.</p>
+<pre><code class="language-python">class DictionaryRootedGraph:
+  def __init__(self, graph, roots):
+    self.graph = graph
+    self.roots = roots
+</code></pre>
+<p>With this, we already have a small domain-specific language (embedded in Python), which allows us to build rooted graphs. Let's see an example</p>
+<pre><code class="language-python">graph1 = DictionaryRootedGraph(
+    {
+        1: [2, 3],
+        2: [3, 4]
+    },
+    [1, 3]
+)
+</code></pre>
+<h2 id="breadth-first-traversal"><a class="header" href="#breadth-first-traversal">Breadth-First Traversal</a></h2>
+<p><img src="/assets/img/z2mc/traversal_concepts.png" alt="Traversal Concepts" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<p><img src="/assets/img/z2mc/breadthFirstTraversal_action.png" alt="BreadthFirstTraversal Action" />{: width=&quot;200&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<pre><code class="language-scala">breadthFirstTraversal(rootedGraph):
+    I = True
+    K = ∅
+    F = []
+    WHILE F ≠ ∅ ∨ I DO
+        N = IF I THEN rootedGraph.roots ELSE rootedGraph.graph[F.dequeue()]
+        I = False
+        FORALL n ∈ N
+            IF n ∉ K THEN 
+                K = K ∪ {n} 
+                F = F ∪ {n}
+    RETURN K
+</code></pre>
+<p><strong>NOTE:</strong> For implementing a set in Python use the <a href="https://docs.python.org/3.11/library/stdtypes.html#set-types-set-frozenset">set data structure</a>.</p>
+<p><strong>NOTE:</strong> For implementing the FIFO queue in Python use the <a href="https://docs.python.org/3.11/library/collections.html#collections.deque">deque (<strong>D</strong>ouble-<strong>E</strong>nded <strong>Que</strong>ue) data structure</a> data structure. The deque is a list-like sequence optimized for data access near its endpoints.</p>
+<p>Implement this algorithm in Python, and test it. Don't forget to use the debugger to understand what is happening.
+Amongst your tests think of edge cases for instance:</p>
+<ul>
+<li><code>breadthFirstTraversal(DictionaryRootedGraph())</code></li>
+<li><code>breadthFirstTraversal(DictionaryRootedGraph({}, nil))</code></li>
+<li><code>breadthFirstTraversal(DictionaryRootedGraph(nil, []))</code></li>
+<li><code>breadthFirstTraversal(DictionaryRootedGraph({1: nil}, []))</code></li>
+</ul>
+<p>Fix the <strong>algorithm</strong> to pass all tests.</p>
+<h3 id="abstracting-over-the-graph"><a class="header" href="#abstracting-over-the-graph">Abstracting Over the Graph</a></h3>
+<p>Why is the algorithm polluted with the implementation details of the <code>DictionaryRootedGraph</code>?</p>
+<p>The key idea here is to look at the algorithm implementation and try to abstract over the queries on the <code>DictionaryRootedGraph</code> data structure by introducing methods, which will hide the data structure-specific details. We need to analyze the algorithm to understand what queries it performs on our data structure. In our case, the answer is rather simple since our <code>breadthFirstTraversal</code> uses the rootedGraph only at line 6, where performs two queries:</p>
+<ol>
+<li>If we are at the beginning (during the initialization phase), we need the <strong>roots</strong> of the graph - our entries in the graph.</li>
+<li>In the subsequent steps, for any vertex <code>v</code> obtained from the frontier (<code>F.dequeue()</code>) we need to obtain its <strong>neighbors</strong> (the vertices that we get by following the edges starting at <code>v</code>).</li>
+</ol>
+<p>Let's add these two methods to the <code>DictionaryRootedGraph</code> class, and then update the <code>breadthFirstTraversal</code> to use these methods, instead of directly using instance variable accesses.</p>
+<pre><code class="language-python">class DictionaryRootedGraph:
+    def __init__(self, graph, roots):
+        self._graph = graph
+        self._roots = roots
+
+    def roots(self):
+        return self._roots
+
+    def neighbors(self, vertex):
+        return self._graph[vertex]
+</code></pre>
+<h4 id="different-data-structures"><a class="header" href="#different-data-structures">Different Data Structures</a></h4>
+<p>Let's say now that we don't like this rooted graph implementation because I have better data-structure implementations:</p>
+<ul>
+<li>for dense graphs (graphs with many edges) a Matrix (a bitmap) representation will be more compact.</li>
+<li>for large graphs with few edges, a sparse matrix encoding of the graph is more compact.</li>
+<li>storing the edges explicitly in a list is easy to parse.</li>
+</ul>
+<p>To allow our algorithm to work with different encodings of the graph </p>
+<p>Based on this analysis, we can introduce the <em>abstract</em> concept of <code>RootedGraph</code> that will encapsulate (group together) these two functions.</p>
+<pre><code class="language-python">class RootedGraph:
+    def roots(self): pass
+    def neighbors(self, vertex): pass
+</code></pre>
+<p><strong>NOTE:</strong> By inheriting from ABC and adding the <code>@abstractmethod</code> annotation we can ensure that the RootedGraph abstract class cannot be instantiated directly.</p>
+<p>Python uses the duck-typing principle: <em>&quot;If it walks like a duck and it quacks like a duck, then it must be a duck&quot;</em>.
+Following this principle, in our case, that means that any object that implements the <code>roots(self)</code> and <code>next(self, vertex)</code> methods are considered <strong>implicitly</strong> as instances of the <code>RootedGraph</code> abstract class. Furthermore, we do not need to define the RootedGraph abstract class at all. Nevertheless doing so greatly improves the readability of the code, as the abstract class clearly defines the public API of any <code>RootedGraph</code> instance. To be even more explicit we can explicitly define the DictionaryRootedGraph class to be an instance of the <code>RootedGraph</code> abstract class.</p>
+<pre><code class="language-python">class DictionaryRootedGraph(RootedGraph):
+</code></pre>
+<p>The <code>EdgeListRootedGraph</code> is a different data structure that can represent the graph with a simple list of edges. The edges in the list are encoded as a Python <a href="https://docs.python.org/3.11/library/stdtypes.html#tuple">tuple</a> <code>(source, destination)</code>, where the <code>source</code> object represents the source vertex of the edge and the <code>destination</code> object represents the target vertex of the edge.
+Besides the edge list, our `RootedGraph`` needs the roots of the graph, we will represent them as a list as earlier.</p>
+<p>Create the <code>EdgeListRootedGraph</code></p>
+<p>Here is a simple graph</p>
+<pre><code class="language-python">graph = EdgeListRootedGraph(
+    [
+        (1, 2),
+        (1, 3),
+        (2, 3),
+        (2, 4)
+    ],
+    [1,3]
+)
+</code></pre>
+<p>What do we need to do so that we can use our <code>BFS</code> algorithm with this new data structure?
+What are the differences between the <code>DictionaryRootedGraph</code> and the <code>EdgeListRootedGraph</code>?</p>
+<p>The <code>EdgeListRootedGraph</code> instances are easier to create from a file containing the roots and the edge list.</p>
+<pre><code class="language-python">1 3 #roots
+1 2
+1 3
+2 3
+2 4
+</code></pre>
+<p>Write a <code>reader</code> factory that creates an <code>EdgeListRootedGraph</code> from such a file.</p>
+<p><img src="/assets/img/z2mc/rooted_graph.png" alt="RootedGraph class hierarchy" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<h4 id="more-generic-vertex-types"><a class="header" href="#more-generic-vertex-types">More Generic Vertex Types</a></h4>
+<p>Up until now, we have used only integer objects to represent the graph vertices. But in the long run, we will want to handle generic objects.</p>
+<p>Try creating a graph of <code>Persons(first_name, family_name)</code> identified by their name. The relations in the graph represent that a <code>Person</code> <code>knows</code> another <code>Person</code>.
+Run the previous reachability algorithm on this graph. If we have a relation <code>Person(a, b) -&gt; Person(a, b)</code> what is the result of the reachability query? Why do we have <code>Person(a, b)</code> twice in the result? How can we fix that?</p>
+<p>Object <strong>Identity</strong> versus object <strong>Equality</strong>, and the set implementation in Python.</p>
+<p>To solve this problem we need to enrich our objects with a domain-specific notion of equality. What makes two <code>Person</code> instances equal?</p>
+<pre><code class="language-python">class Person:
+    ...
+    def __eq__(self, other):
+        ...
+    def __hash__(self):
+        ...
+</code></pre>
+<h3 id="breadth-first-search"><a class="header" href="#breadth-first-search">Breadth-First Search</a></h3>
+<p><img src="/assets/img/z2mc/breadthFirstSearch_action.png" alt="BreadthFirstSearch Action" />{: width=&quot;200&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<pre><code class="language-scala">breadthFirstSearch(graph, on_entry, opaque):
+    I = True
+    K = ∅
+    F = []
+    WHILE F ≠ ∅ ∨ I DO
+        N = IF I THEN graph.roots() ELSE graph.neighbours(F.dequeue())
+        I = False
+        FORALL n ∈ N
+            IF n ∉ K THEN
+                terminate = on_entry(n, opaque)
+                IF terminate THEN
+                    RETURN (opaque, K)        
+                K = K ∪ {n} 
+                F = F ∪ {n}
+    RETURN (opaque, K)
+</code></pre>
+<hr>
+<h2 id="intensional-graphs-hanoi-example"><a class="header" href="#intensional-graphs-hanoi-example">Intensional Graphs: Hanoi Example</a></h2>
+<p><img src="/assets/img/z2mc/overview_01_hanoi.png" alt="Progress Overview" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<p>Up until now, we have used only extensional graph representations. But there is no fundamental limit precluding us from using also intensional graph representations. These are graphs that are defined by giving a procedure that can be followed to obtain the graph dynamically on request. At this point, we will start to see the power of our query-based graph manipulations. Here instead of enumerating all the vertices and edges of the graph, we will provide <strong>smart</strong> implementation of the <code>roots</code> and <code>neighbors</code> methods to generate <em>special</em> graphs programmatically that will then be analyzed by our algorithms.</p>
+<p>To make this section a bit concrete we will use the Tower of Hanoi game. The aim is to encode the game state as graph vertices and the game actions, that link two game states, as edges. After encoding the game rules we will look for the solution by simply calling our breadth-first search algorithm.</p>
+<pre><code class="language-python">class Hanoi(TransitionRelation, AcceptingSet):
+    def __init__(self, nb_stacks=3, nb_disks=3):
+        self.nb_stacks = nb_stacks
+        self.nb_disks = nb_disks
+    
+    def roots(self):
+        return [HanoiConfiguration(self.nb_stacks, self.nb_disks)]
+
+    def neigbours(self, configuration):
+        neighbours = []
+        for i, source in enumerate(configuration.stacks):
+            if not len(source):
+                continue
+            disk = source[-1]
+            for j, target in enumerate(configuration.stacks):
+                if len(target) == 0 or disk &lt; target[-1]:
+                    neighbour = copy.deepcopy(configuration)
+                    neighbour.stacks[i].pop() if len(source) else False
+                    neighbour.stacks[j].append(disk)
+                    neighbours.append(neighbour)
+        return neighbours
+
+    def solution(self, configuration):
+        for i, stack in enumerate(configuration.stacks):
+            if i &lt; (self.nb_stacks-1) and len(stack):
+                return False
+            else:
+                if i &lt; (self.nb_stacks-1):
+                    continue
+                else:
+                    print(f'i={i}')
+                    return all(stack[j] &gt;= stack[j+1] for j in range(len(stack)-1))
+</code></pre>
+<p><strong>Practical situation:</strong> Going beyond simple search. <a href="https://academic.oup.com/comjnl/article-pdf/37/5/429/988918/370429.pdf">Giddy, Jonathan P., and Reihaneh Safavi-Naini. &quot;Automated cryptanalysis of transposition ciphers.&quot; The Computer Journal 37.5 (1994): 429-436.</a></p>
+<p>This is great, but, how did we get to this solution?</p>
+<hr>
+<h2 id="building-the-trace"><a class="header" href="#building-the-trace">Building the Trace</a></h2>
+<p><img src="/assets/img/z2mc/overview_02.png" alt="Progress Overview" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}
+<img src="/assets/img/z2mc/rooted_graph_02.png" alt="ParentTracer is a RootedGraph" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<pre><code class="language-python">class ParentTracer(RootedGraph):
+
+    def __init__(self, operand, parents=None):
+        self.operand = operand
+        self.parents = {} if parents is None else parents
+
+    def roots(self):
+        neighbours = self.operand.roots()
+        for n in neighbours:
+            self.parents[n] = []
+        return neighbours
+
+    def neighbors(self, vertex):
+        neighbours = self.operand.neighbors(vertex)
+        for n in neighbours:
+            if self.parents.get(n) is None:
+                self.parents[n] = [vertex]
+        return neighbours
+</code></pre>
+<hr>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="00_foreword.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="02_piecewise_relations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="00_foreword.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="02_piecewise_relations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
