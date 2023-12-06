@@ -2,7 +2,7 @@
 <html lang="en">
 
   <!-- Head -->
-  <head><meta http-equiv="refresh" content="3; url=https://teodorov.github.io/" />        
+  <head>        
     <!-- Metadata, OpenGraph and Schema.org -->
     
     <!-- Website verification -->
@@ -12,9 +12,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ciprian  TEODOROV | Page not found</title>
+    <title>Ciprian  TEODOROV | A Typeclass for Simple FIFO Queues</title>
     <meta name="author" content="Ciprian  TEODOROV" />
-    <meta name="description" content="Looks like there has been a mistake. Nothing exists here." />
+    <meta name="description" content="playing with typeclasses in lean" />
     <meta name="keywords" content="academic-website" />
 
 
@@ -36,7 +36,7 @@
     <!-- Styles -->
     <link rel="icon" href="/assets/img/favicon.png">
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://teodorov.github.io/404.html">
+    <link rel="canonical" href="https://teodorov.github.io/blog/2022/lean-queue/">
 
     <!-- Dark Mode -->
     <script src="/assets/js/theme.js"></script>
@@ -70,7 +70,7 @@
               </li>
               
               <!-- Blog -->
-              <li class="nav-item ">
+              <li class="nav-item active">
                 <a class="nav-link" href="/blog/">blog</a>
               </li>
 
@@ -97,20 +97,118 @@
 
     <!-- Content -->
     <div class="container mt-5">
-      <!-- page.html -->
-        <div class="post">
+      <!-- _layouts/post.html -->
 
-          <header class="post-header">
-            <h1 class="post-title">Page not found</h1>
-            <p class="post-description">Looks like there has been a mistake. Nothing exists here.</p>
-          </header>
+<div class="post">
 
-          <article>
-            <p>You will be redirected to the main page within 3 seconds. If not redirected, please click <a href="https://teodorov.github.io/">here</a>.</p>
+  <header class="post-header">
+    <h1 class="post-title">A Typeclass for Simple FIFO Queues</h1>
+    <p class="post-meta">January 25, 2022</p>
+    <p class="post-tags">
+      <a href="/blog/2022"> <i class="fas fa-calendar fa-sm"></i> 2022 </a>
+        ·  
+        <a href="/blog/tag/lean3">
+          <i class="fas fa-hashtag fa-sm"></i> lean3</a>  
+          
+        ·  
+        <a href="/blog/category/formal">
+          <i class="fas fa-tag fa-sm"></i> formal</a>  
+          
 
-          </article>
+    </p>
+  </header>
 
-        </div>
+  <article class="post-content">
+    <p>In this post I want to cover a typeclass definition for a <em>simple queue</em>.
+A <em>simple queue</em> is an unbounded data structure that maintains a collection of elements of an arbitrary type <code class="language-plaintext highlighter-rouge">α : Type u</code>) in a sequence. 
+From a queue we can only retrieve the element at the <em>front</em> and verify it is <em>empty</em>.
+The queue can be modified either by adding elements at the tail or by removing elements at the <em>front</em>.</p>
+
+<p>The list of operations is:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">empty: Q α</code>              – create an empty queue</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">is_empty: Q α → bool</code>    – check if a queue is empty</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">front: Q α → option α</code>   – retrieve/peek the front element</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">enqueue: α → Q α → Q α</code>  – add an element at the end of the queue</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">dequeue: Q α → Q α</code>      – remove the element at the front</li>
+</ul>
+
+<p>An implementation of these operations is correct with respect of the simple Queue if the following equations are true:</p>
+
+<p>An empty queue is_empty</p>
+
+<p>[e₁] <code class="language-plaintext highlighter-rouge">is_empty empty = tt</code></p>
+
+<p>A non-empty queue ¬is_empty</p>
+
+<p>[e₂] <code class="language-plaintext highlighter-rouge">∀ x Q₀, is_empty (enqueue x Q₀) = ff</code></p>
+
+<p>An empty queue doesn’t have a front</p>
+
+<p>[e₃] <code class="language-plaintext highlighter-rouge">front empty = none</code></p>
+
+<p>A non-empty queue has a front</p>
+
+<p>[e₄] <code class="language-plaintext highlighter-rouge">∀ x Q₀,  is_empty Q₀ → front (enqueue x Q₀) = some x</code></p>
+
+<p>Front is not changed by an insertion in a non-empty queue</p>
+
+<p>[e₅] <code class="language-plaintext highlighter-rouge">∀ x Q₀, ¬is_empty Q₀ → front (enqueue x Q₀) = front Q₀</code></p>
+
+<p>Dequeue from an empty queue has no effect</p>
+
+<p>[e₆] <code class="language-plaintext highlighter-rouge">dequeue empty = empty</code></p>
+
+<p>Removing an element from an one element queue, leaves the queue empty</p>
+
+<p>[e₇] <code class="language-plaintext highlighter-rouge">∀ x Q₀, is_empty Q₀ → dequeue (enqueue x Q₀) = empty</code></p>
+
+<p>Dequeue enqueue order unimportant for a non-empty queue</p>
+
+<p>[e₈] <code class="language-plaintext highlighter-rouge">∀ x Q₀, ¬is_empty Q₀ → dequeue (enqueue x Q₀) = enqueue x (dequeue Q₀)</code></p>
+
+<p>In <a href="https://leanprover.github.io" target="_blank" rel="noopener noreferrer">lean 3</a> the simple queue can be captured through an Typeclass as follows:</p>
+
+<pre><code class="language-Lean">class IQueue (α : Type u) (Q : Type u → Type u) :=
+  --!`queue operations`--
+  (empty:     Q α             )
+  (is_empty:  Q α → bool      )
+  (front:     Q α → option α  )
+  (enqueue:     α → Q α → Q α )
+  (dequeue:   Q α → Q α       )
+  --!`queue contract`--
+   
+  (e₁ : is_empty empty = tt)
+  (e₂ : ∀ x Q₀, is_empty (enqueue x Q₀) = ff)
+  (e₃ : front empty = none)
+  (e₄ : ∀ x Q₀,  is_empty Q₀ → front (enqueue x Q₀) = some x)
+  (e₅ : ∀ x Q₀, ¬is_empty Q₀ → front (enqueue x Q₀) = front Q₀)
+  (e₆ : dequeue empty = empty)
+  (e₇ : ∀ x Q₀, is_empty Q₀ → dequeue (enqueue x Q₀) = empty)
+  (e₈ : ∀ x Q₀, ¬is_empty Q₀ → dequeue (enqueue x Q₀) = enqueue x (dequeue Q₀))
+</code></pre>
+
+  </article><div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname  = 'teodorov-github-io';
+      var disqus_identifier = '/blog/2022/lean-queue';
+      var disqus_title      = "A Typeclass for Simple FIFO Queues";
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" target="_blank" rel="noopener noreferrer">comments powered by Disqus.</a>
+</noscript>
+
+</div>
 
     </div>
 
