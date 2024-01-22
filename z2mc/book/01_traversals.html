@@ -192,6 +192,18 @@ The keys of the dictionary will be the vertices of the graph. To each vertex we 
 </code></pre>
 <h2 id="breadth-first-traversal"><a class="header" href="#breadth-first-traversal">Breadth-First Traversal</a></h2>
 <p><img src="/assets/img/z2mc/traversal_concepts.png" alt="Traversal Concepts" />{: width=&quot;400&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
+<pre><code class="language-ruby">traversal K {}      = K
+traversal K {x} ∪ F = traversal K F                            if x ∈ K
+traversal K {x} ∪ F = traversal ({x} ∪ K) ((neighbors x) ∪ F)  if x ∉ K
+
+dfs K []        = K
+dfs K (x::L)    = dfs K L                            if x ∈ K
+dfs K (x::L)    = dfs ({x} ∪ K) ((neighbors x) ++ L) if x ∉ K
+
+bfs K []        = K
+bfs K (x::L)    = dfs K L                            if x ∈ K
+bfs K (x::L)    = dfs ({x} ∪ K) (L ++ (neighbors x)) if x ∉ K
+</code></pre>
 <p><img src="/assets/img/z2mc/breadthFirstTraversal_action.png" alt="BreadthFirstTraversal Action" />{: width=&quot;200&quot; style=&quot;display:block; margin-left:auto; margin-right:auto&quot;}</p>
 <pre><code class="language-scala">breadthFirstTraversal(rootedGraph):
     I = True

@@ -27,6 +27,13 @@ Note that we can also define the predicate `enabled: A → C → bool`, which re
 
 To simplify the manipulations these functions will be encapsulated in a new abstraction, which we name the SemanticTransitionRelation (STR).
 
+- Leslie Lamport. 1994. The temporal logic of actions. ACM Trans. Program. Lang. Syst. 16, 3 (May 1994), 872–923. https://doi.org/10.1145/177492.177726
+
+- Valentin Besnard, Matthias Brun, Frédéric Jouault, Ciprian Teodorov, and Philippe Dhaussy. 2018. Unified LTL Verification and Embedded Execution of UML Models. In Proceedings of the 21th ACM/IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS '18). Association for Computing Machinery, New York, NY, USA, 112–122. https://doi.org/10.1145/3239372.3239395
+
+- Arthur Charguéraud, Adam Chlipala, Andres Erbsen, and Samuel Gruetter. 2023. Omnisemantics: Smooth Handling of Nondeterminism. ACM Trans. Program. Lang. Syst. 45, 1, Article 5 (March 2023), 43 pages. https://doi.org/10.1145/3579834
+
+
 **side question:** Should we use RootedPiecewiseRelation instead of SemanticTransitionRelation?
 
 ```python
