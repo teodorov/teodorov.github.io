@@ -25,7 +25,7 @@ Ciprian TEODOROV is a computer science researcher in [Lab-STICC Laboratory](http
 
 In the past he worked as EDA/CAD Software Engineer at [Dolphin Integration](http://www.dolphin.fr/), Meylan, France. His main responsibility was the implementation of a new, modern VHDL language infrastructure to increase standard compliance, to reduce memory consumption and to improve the simulation speed.
 
-Ciprian TEODOROV received a PhD degree in Computer Science from the [University of Western Brittany](https://www.univ-brest.fr/), France. He was a member of the [“Methods, tools for circuits and systems” (MOCS)](http://www.labsticc.fr/les-equipes-cacs/mocs/) team of Lab-STICC. His research work focused on physical-design tools for nanoscale computing architectures.
+Ciprian TEODOROV received a PhD degree in Computer Science from the [University of Western Brittany](https://www.univ-brest.fr/), France. He was a member of the “Methods, tools for circuits and systems” (MOCS) team of Lab-STICC. His research work focused on physical-design tools for nanoscale computing architectures.
 
 During his PhD he created [R2D NASIC](http://dx.doi.org/10.1109/NANOARCH.2011.5941486), a nanoscale architectural template, based on the NASIC fabric, which enables arbitrary placement and routing at nanoscale. He also designed MoNaDe, a model-driven physical-design framework. MoNade enables agile and incremental exploration of the architecture/design-tools adequacy.
 
