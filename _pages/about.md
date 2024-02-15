@@ -18,7 +18,7 @@ profile:
 news: false  # includes a list of news items
 latest_posts: false  # includes a list of the newest posts
 selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true  # includes social icons at the bottom of the page
+social: true # includes social icons at the bottom of the page
 ---
 
 Ciprian TEODOROV is a computer science researcher in [Lab-STICC Laboratory](https://labsticc.fr/en)/[P4S team](https://labsticc.fr/en/teams/p4s) at [ENSTA Bretagne](http://www.ensta-bretagne.fr/). His main research interests are the industrialization of automata-based model-checking techniques for embedded system verification and model-driven design tools for reconfigurable system-on-chip. He leads the [OBP2 *Semantic Diagnosis & Formal Verification*](http://www.obpcdl.org) research team.
