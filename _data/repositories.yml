@@ -1,12 +1,47 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - teodorov
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - teodorov/z2mc-javascript
+  - teodorov/lean4-tla
+  - teodorov/temporal-multiverse-debugging
+  # - teodorov/action_language_l4
+  - teodorov/confreelander_dart
+  - teodorov/ploeg_tree_layout
+  - teodorov/fin
+  - teodorov/ClockRDL
+  - teodorov/cisics
+  - teodorov/announce4j
+  - teodorov/talkffi
+  - teodorov/virtual_fpga
+  - teodorov/sle2016
+  - teodorov/sfdp-lite 
+
+bitbucket_repos:
+  - plug-team/plug-core
+  - plug-team/plug-core-ui
+  - plug-team/plug-utils
+  - plug-team/envlang
+  - plug-team/plug-utils-fx
+  - plug-team/plug-runtime-buchikripke
+  - plug-team/plug-runtime-buchi
+  - plug-team/jicpl
+  # - plug-team/plug-obp-bridge
+  # - plug-team/plug-synchronization
+  # - plug-team/plug-pastfreeze
+  # - plug-team/plug-runtime-ltla
+  - plug-team/plug-runtime-lexplicit
+  - plug-team/plug-devel
+  # - plug-team/plug-runtime-lclockrdl
+  - plug-team/plug-runtime-buchi-fcr-tests
+  # - plug-team/plug-editor-fx
+  # - plug-team/plug-simulation-ui
+  - plug-team/plug-runtime-random
+  # - plug-team/plug-runtime-ltuml
+  # - plug-team/plug-runtime-ltimesquare
+  # - plug-team/plug-runtime-lspinja
+  - plug-team/plug-runtime-lguardaction
+  # - plug-team/plug-runtime-composite
+  # - plug-team/plug-module-loading
+  # - plug-team/plug-simulation-fx-ui
+  - plug-team/plug-runtime-viatcp-ui

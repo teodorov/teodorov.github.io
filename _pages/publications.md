@@ -6,7 +6,9 @@ description: publications by categories in reversed chronological order. generat
 nav: true
 nav_order: 1
 ---
-<!-- _pages/publications.md -->
+
+from [https://cv.archives-ouvertes.fr/ciprian-teodorov](https://cv.archives-ouvertes.fr/ciprian-teodorov).
+
 <div class="publications">
 
 {% bibliography -f {{ site.scholar.bibliography }} %}
