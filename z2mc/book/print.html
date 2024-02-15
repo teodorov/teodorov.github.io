@@ -422,7 +422,7 @@ There are two downsides with this approach that we want to emphasize in this sec
 <li>The implementation of the <code>neighbours</code> function in the Tower of Hanoi example has <strong>multiple responsibilities</strong>:
 <ol>
 <li><em>detect if a disk move is possible</em></li>
-<li><em>create the target configuration/vertex</em>. Typically it is cheaper to create the target configuration by 
+<li><em>create the target configuration/vertex</em>. Typically it is cheaper to create the target configuration by
 <ol>
 <li><em>copying</em> the source configuration</li>
 <li><em>changing</em> it according to the move considered</li>
@@ -470,7 +470,25 @@ There are two downsides with this approach that we want to emphasize in this sec
             targets += self.str.execute(a, v)
         return targets
 </code></pre>
-<p>With this setup we can already model interesting systems. Consider for instance the following STR-based intensional graph description:</p>
+<p>With this setup we can already model interesting systems. Consider for instance the piecewise relation represented in the following graph:
+<img src="images/piecewise_relation_example.png" alt="An example of a piecewise relation" /></p>
+<pre><code>f(x) =
+    - 1         if x ≥ -2
+    - x         if x &gt; 1
+    - (x - 5)^2 if x ≥ 2 ∧ x &lt; 6.3
+    - -x        if x ≥ 2 ∧ x ≥ 6
+    - x-1       if x ≥ 2 ∧ x ≥ 6
+</code></pre>
+<pre><code>f(x) =
+    - 1         if x ≥ -2
+    - x         if x &gt; 1
+    - g(x) if x ≥ 2 ∧ g(x) =
+        - (x - 5)^2 if x &lt; 6.3
+        - h(x) if x ≥ 6 ∧ h(x) =
+            -x
+            -x-1
+</code></pre>
+<p>This relation can be encoded with the STR-based intensional graph description as follows:</p>
 <pre><code class="language-python">    class ExampleSTR:
         def roots(self):
             return [0]
@@ -481,8 +499,14 @@ There are two downsides with this approach that we want to emphasize in this sec
                 actions += [lambda x: [1]]
             if (x &gt; 1):
                 actions += [lambda x: [x]]
-            if (x &gt;= 0):
-                actions += [lambda x: [-x] if x &lt; 5 else [-x, x-1]]
+            if (x &gt;= 2):
+                actions += [lambda x:
+                    r = []
+                    if x &lt; 6.3:
+                        r.append((x-5)^2)
+                    if x &gt;= 6:
+                        r.extend([-x, x-1])
+                    r
             return actions
         def execute(self, action, configuration):
             return action(configuration)
@@ -491,16 +515,26 @@ There are two downsides with this approach that we want to emphasize in this sec
 <pre><code class="language-scala">var x
 init ≜ 0
 next ≜ x' = 1      if x &gt;= -2
-    ∨   x' = x      if x &gt;   1
-    ∨   (    x' = -x     if true
-        ∨   x' = x-1    if x &gt;   5) if x &gt;= 0
+    ∨  x' = x      if x &gt;   1
+    ∨   (   x' = (x-5)^2     if x &lt; 6.3
+        ∨   (x' = -x ∨ x' = x-1) if x &gt;= 6) if x &gt;= 2
 spec ≜ init ∧ ☐next
+</code></pre>
+<pre><code class="language-python">//PiReDL syntax
+def next (x) ≜
+| x ≥ -2 ↦ 1
+| x &gt;  1 ↦ x
+| x ≥  2 ↦
+    | x &lt; 6.3 ↦ (x-5)^2
+    | x &gt;= 6  ↦
+        | -x
+        | x - 1
 </code></pre>
 <p><strong>Interesting side-note:</strong> Following the syntax 'idea' in the previous listing we can get to the TLA+ syntax rather naturally.
 Existential quantification <code>∃ x ∈ S, condition</code> ↦ S detect: λ x, condition</p>
-<p>One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1. </p>
+<p>One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1.</p>
 <pre><code class="language-scala">var clock
-init ≜ clock = 0 
+init ≜ clock = 0
      ∨ clock = 1
 tick ≜ clock' = 1 if clock = 0
      ∨ clock' = 0 if clock = 1
