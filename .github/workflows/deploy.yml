@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - main
     paths:
       - "assets/**"
       - "**.html"
@@ -28,7 +27,6 @@ on:
   pull_request:
     branches:
       - master
-      - main
     paths:
       - "assets/**"
       - "**.html"
@@ -77,6 +75,7 @@ jobs:
         run: |
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
+          bundle update
           bundle exec jekyll build --lsi
       - name: Purge unused CSS 🧹
         run: |
