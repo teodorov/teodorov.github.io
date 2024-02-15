@@ -5,7 +5,7 @@ title: repos
 description: Some repositories I contribute to.
 nav: true
 nav_order: 3
-published: true
+published: false
 ---
 
 <!-- ## GitHub users -->
@@ -43,16 +43,6 @@ published: true
 <div class="repositories d-flex flex-wrap flex-md-row flex-column justify-content-between align-items-center">
   {% for repo in site.data.repositories.github_repos %}
     {% include repository/repo.liquid repository=repo %}
-  {% endfor %}
-</div>
-{% endif %}
-
-## Selected Bitbucket Repositories
-
-{% if site.data.repositories.bitbucket_repos %}
-<div class="repositories d-flex flex-wrap flex-md-row flex-column justify-content-between align-items-center">
-  {% for repo in site.data.repositories.bitbucket_repos %}
-    {% include repository/bitbucket.html repository=repo%}
   {% endfor %}
 </div>
 {% endif %}
