@@ -26,7 +26,7 @@ presented & defended at *ENSTA Bretagne* on **Monday, April 3, 2023** at 14:00.
 - [Prof. Alain PLANTEC](https://scholar.google.fr/citations?user=pnT0X0YAAAAJ&hl=en&oi=ao), Université de Bretagne Occidentale, FR -- *examiner*.
 - [Emmanuel GAUDIN](https://linkedin.com/in/emmanuelgaudin), Founder & CEO, [PragmaDev](http://www.pragmadev.com/), Paris, FR -- *invited member*.
 
-![group_photo](/assets/img/group_photo.jpeg){:class="img-fluid rounded z-depth-2"}
+![group_photo](/assets/img/hdr_group_photo.jpeg){:class="img-fluid rounded z-depth-2"}
 
 <br>
 
