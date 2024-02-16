@@ -699,7 +699,7 @@ function set_theme(theme, store = true) {
             const name = 'tryit';
             const playground = clipButton.parentElement.parentElement;
             const code_block = playground.querySelector('code');
-            const contents = code_block?.textContent;
+            const contents = code_block.textContent;
             docView.postMessage({name, contents});
         })
     });
