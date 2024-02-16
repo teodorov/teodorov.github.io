@@ -63,7 +63,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3.0"
-          bundler-cache: false
+          bundler-cache: true
       - name: Update _config.yml ⚙️
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -75,8 +75,7 @@ jobs:
         run: |
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
-          bundle install
-          bundle exec jekyll build
+          bundle exec jekyll build --lsi
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss
