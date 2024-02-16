@@ -117,8 +117,6 @@ GEM
       jekyll (>= 3.9)
       nokogiri (~> 1.12)
     jekyll-twitter-plugin (2.1.0)
-    jekyll-uglify (1.1.2)
-      uglifier (~> 4.2.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
     jemoji (0.13.0)
@@ -245,7 +243,6 @@ DEPENDENCIES
   jekyll-sitemap
   jekyll-toc
   jekyll-twitter-plugin
-  jekyll-uglify
   jemoji
   mini_racer
   unicode_utils
