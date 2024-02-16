@@ -10,7 +10,7 @@ There are two downsides with this approach that we want to emphasize in this sec
    2. encode the graph of interest differently, ie push the edge annotation to the target vertex. But this can result in an exponential blowup in the resulting graph.
 2. The implementation of the `neighbours` function in the Tower of Hanoi example has **multiple responsibilities**:
    1. *detect if a disk move is possible*
-   2. *create the target configuration/vertex*. Typically it is cheaper to create the target configuration by 
+   2. *create the target configuration/vertex*. Typically it is cheaper to create the target configuration by
       1. *copying* the source configuration
       2. *changing* it according to the move considered
 
@@ -26,6 +26,13 @@ This decomposition leads us to an abstraction closely resemblinng **piecewise fu
 Note that we can also define the predicate `enabled: A → C → bool`, which returns true if an action `A` is enabled in the configuration `C`.
 
 To simplify the manipulations these functions will be encapsulated in a new abstraction, which we name the SemanticTransitionRelation (STR).
+
+- Leslie Lamport. 1994. The temporal logic of actions. ACM Trans. Program. Lang. Syst. 16, 3 (May 1994), 872–923. https://doi.org/10.1145/177492.177726
+
+- Valentin Besnard, Matthias Brun, Frédéric Jouault, Ciprian Teodorov, and Philippe Dhaussy. 2018. Unified LTL Verification and Embedded Execution of UML Models. In Proceedings of the 21th ACM/IEEE International Conference on Model Driven Engineering Languages and Systems (MODELS '18). Association for Computing Machinery, New York, NY, USA, 112–122. https://doi.org/10.1145/3239372.3239395
+
+- Arthur Charguéraud, Adam Chlipala, Andres Erbsen, and Samuel Gruetter. 2023. Omnisemantics: Smooth Handling of Nondeterminism. ACM Trans. Program. Lang. Syst. 45, 1, Article 5 (March 2023), 43 pages. https://doi.org/10.1145/3579834
+
 
 **side question:** Should we use RootedPiecewiseRelation instead of SemanticTransitionRelation?
 
@@ -52,7 +59,30 @@ class STR2RG:
         return targets
 ```
 
-With this setup we can already model interesting systems. Consider for instance the following STR-based intensional graph description:
+With this setup we can already model interesting systems. Consider for instance the piecewise relation represented in the following graph:
+![An example of a piecewise relation](images/piecewise_relation_example.png)
+
+```
+f(x) =
+    - 1         if x ≥ -2
+    - x         if x > 1
+    - (x - 5)^2 if x ≥ 2 ∧ x < 6.3
+    - -x        if x ≥ 2 ∧ x ≥ 6
+    - x-1       if x ≥ 2 ∧ x ≥ 6
+```
+
+```
+f(x) =
+    - 1         if x ≥ -2
+    - x         if x > 1
+    - g(x) if x ≥ 2 ∧ g(x) =
+        - (x - 5)^2 if x < 6.3
+        - h(x) if x ≥ 6 ∧ h(x) =
+            -x
+            -x-1
+```
+
+This relation can be encoded with the STR-based intensional graph description as follows:
 
 ```python
     class ExampleSTR:
@@ -65,8 +95,14 @@ With this setup we can already model interesting systems. Consider for instance 
                 actions += [lambda x: [1]]
             if (x > 1):
                 actions += [lambda x: [x]]
-            if (x >= 0):
-                actions += [lambda x: [-x] if x < 5 else [-x, x-1]]
+            if (x >= 2):
+                actions += [lambda x:
+                    r = []
+                    if x < 6.3:
+                        r.append((x-5)^2)
+                    if x >= 6:
+                        r.extend([-x, x-1])
+                    r
             return actions
         def execute(self, action, configuration):
             return action(configuration)
@@ -78,20 +114,32 @@ Note that in the previous examples, we compute the new configuration (`x'`) base
 var x
 init ≜ 0
 next ≜ x' = 1      if x >= -2
-    ∨   x' = x      if x >   1
-    ∨   (    x' = -x     if true
-        ∨   x' = x-1    if x >   5) if x >= 0
+    ∨  x' = x      if x >   1
+    ∨   (   x' = (x-5)^2     if x < 6.3
+        ∨   (x' = -x ∨ x' = x-1) if x >= 6) if x >= 2
 spec ≜ init ∧ ☐next
+```
+
+```python
+//PiReDL syntax
+def next (x) ≜
+| x ≥ -2 ↦ 1
+| x >  1 ↦ x
+| x ≥  2 ↦
+    | x < 6.3 ↦ (x-5)^2
+    | x >= 6  ↦
+        | -x
+        | x - 1
 ```
 
 **Interesting side-note:** Following the syntax 'idea' in the previous listing we can get to the TLA+ syntax rather naturally.
 Existential quantification `∃ x ∈ S, condition` ↦ S detect: λ x, condition
 
-One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1. 
+One simple yet interesting specification is a one-bit clock, which alternates forever between 0 and 1.
 
 ```scala
 var clock
-init ≜ clock = 0 
+init ≜ clock = 0
      ∨ clock = 1
 tick ≜ clock' = 1 if clock = 0
      ∨ clock' = 0 if clock = 1
@@ -146,4 +194,3 @@ spec = init ∧ ☐(alice ∨ bob)
 **Exercise 5:** Verify that `Simple Alice-Bob` and `Flag Alice-Bob` are deadlock-free. How can we encode the deadlock-freedom property?
 
 <hr>
-

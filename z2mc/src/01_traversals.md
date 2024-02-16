@@ -70,6 +70,20 @@ graph1 = DictionaryRootedGraph(
 
 ![Traversal Concepts](/assets/img/z2mc/traversal_concepts.png){: width="400" style="display:block; margin-left:auto; margin-right:auto"}
 
+```ruby
+traversal K {}      = K
+traversal K {x} ∪ F = traversal K F                            if x ∈ K
+traversal K {x} ∪ F = traversal ({x} ∪ K) ((neighbors x) ∪ F)  if x ∉ K
+
+dfs K []        = K
+dfs K (x::L)    = dfs K L                            if x ∈ K
+dfs K (x::L)    = dfs ({x} ∪ K) ((neighbors x) ++ L) if x ∉ K
+
+bfs K []        = K
+bfs K (x::L)    = dfs K L                            if x ∈ K
+bfs K (x::L)    = dfs ({x} ∪ K) (L ++ (neighbors x)) if x ∉ K
+```
+
 ![BreadthFirstTraversal Action](/assets/img/z2mc/breadthFirstTraversal_action.png){: width="200" style="display:block; margin-left:auto; margin-right:auto"}
 
 ```scala
