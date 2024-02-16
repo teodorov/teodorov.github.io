@@ -31,7 +31,7 @@ During his PhD he created [R2D NASIC](http://dx.doi.org/10.1109/NANOARCH.2011.59
 
 [CV Overview](/overview)
 
-### education
+## education
 
 - [Habilitation in Computer Science (French HDR)](/hdr), 2023, University of Western Britanny (UBO), Brest.
 - [Ph.D. in Computer Science](/phd), 2011, University of Western Britanny (UBO), Brest.
