@@ -7,6 +7,8 @@ tags: debugging
 categories: research
 ---
 
+<style>body {text-align: justify}</style>
+
 **Multiverse debugging** offers a powerful toolset for addressing the inherent complexity and non-determinism in concurrent systems. It opens new possibilities for developers and researchers to understand, analyze, optimize, and improve system reliability and performance.
 
 The concept of the *multiverse*, though controversial in philosophy [[1]](#1) and physics [[2]](#2), has gained traction in psychology [[3]](#3) and neurology [[4]](#4), where multiverse analysis addresses the researcher’s degrees of freedom issue [[5]](#5). In mathematics, the multiverse framework is seen in foundational interpretations of set theory [[6]](#6). In engineering, Leslie Lamport’s Temporal Logic of Actions (TLA) [[7]](#7) conceptualizes system specifications within an implicit underlying universe. This framework complements Edward Lee's view on engineering models [[8]](#8), where engineers are seen as creators of their design universes.
