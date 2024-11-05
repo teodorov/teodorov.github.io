@@ -39,8 +39,8 @@ The **verify** function operates as follows:
 
 3. **Primary Outputs**:
    - The verification output is structured as a tuple `(conclusion, witness)`, with the following three possibilities:
-     - **(OK, justification)**: The system satisfies the specification, with a justification explaining the compliance. In some cases, this justification may be unavailable due to resource or time constraints.
-     - **(Fail, counter-example)**: The system does not meet the specification, with a counter-example highlighting the failure. Occasionally, the counter-example might be missing.
+     - **(OK, justification)**: The system satisfies the specification, with a justification explaining the compliance. In some cases, this justification may be unavailable.
+     - **(Fail, counter-example)**: The system does not meet the specification, with a counter-example highlighting the failure. Sometimes, the counter-example might be missing.
      - **(Unknown, explanation)**: Verification cannot determine compliance, with an explanation outlining the reasoning. This explanation might include traceability details, such as assumptions or verification paths. Sometimes, the explanation itself might be unknown if the limitations of the verification are unclear.
 
 4. **Complementary Outputs**:
