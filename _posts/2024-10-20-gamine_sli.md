@@ -6,8 +6,6 @@ tags: ["operational semantics", "semantics", "executable models"]
 categories: ["research", "semantics"]
 ---
 
-<style>body {text-align: justify}</style>
-
 The G∀min∃ Semantic Language Interface (SLI) is a framework designed to bridge the gap between executable specifications and behavior analysis tools. It captures the operational semantics of programming languages, called subject language in the following. Two key particularities of the SLI are:
 - **exposes all non-determinism** that might be present in the subject language; 
 - requires the definition of a **step evaluation** function, used to query the execution steps based on a *diagnosis language*.

@@ -6,8 +6,6 @@ tags: ["verification", "context diagram", "MBSE"]
 categories: ["research", "verification"]
 ---
 
-<style>body {text-align: justify}</style>
-
 ## Context
 
 In the development and deployment of complex systems, **verifying whether a system meets a given specification** is fundamental to ensuring its correct and reliable operation. Specifications outline the intended functionality, safety requirements, and other performance criteria that a system must meet. Verifying a system against these specifications is vital not only to ensure quality and correctness but also to comply with regulatory standards, minimize risks, and provide confidence to stakeholders that the system will operate as intended. Given the complexity of modern systems, verification can range from manual, human-driven checks to fully automated, computationally intensive processes.
