@@ -7,7 +7,8 @@ categories: ["research", "semantics"]
 ---
 
 The G∀min∃ Semantic Language Interface (SLI) is a framework designed to bridge the gap between executable specifications and behavior analysis tools. It captures the operational semantics of programming languages, called subject language in the following. Two key particularities of the SLI are:
-- **exposes all non-determinism** that might be present in the subject language; 
+
+- **exposes all non-determinism** that might be present in the subject language;
 - requires the definition of a **step evaluation** function, used to query the execution steps based on a *diagnosis language*.
 
 ```scala
@@ -33,7 +34,9 @@ semantics (C A) ≜
     actions: C → set A
     execute: A → C → set C
 ```
+
 where:
+
 - ```C```: is a type capturing the semantic *configurations* (the execution state) of the subject language;
 - ```A```: is an *action* type, that classifies all the transition rules of the underlying semantics. In general, an action can be thought as a function from configurations to sets of configurations ```action: C → set C```; 
 - ```initial: set C```: This function defines a set of initial configurations from which the system can start. Allowing multiple initial configurations, allow to capture the *initial non-determinism* that might be present in the subject language. If the subject language does not have *initial non-determinism* one can always return a singleton.
@@ -66,8 +69,7 @@ The G∀min∃ Semantic Language Interface (SLI) offers a robust framework for m
 
 This interface can be viewed as an operational implementation of the more theoretical approach presented in Omnisemantics [[1]](#1). In contrast to this approach, the SLI requires the existence of computable interpretation of the predicates that relate each state to a set of target states. This may seem like a very strong limitation compared to Omnisemantics, but it reflects the constraints imposed on language semantics by execution environments. Another manifestation of this constraint can be found in the context of TLA [[2]](#2), which also imposes the existence of a computable interpretation of predicates to enable the execution, debugging, and model checking of specifications [[3]](#3).
 
-
-# References
+## References
 
 <a id="1">[1]</a> Arthur Charguéraud, Adam Chlipala, Andres Erbsen, and Samuel Gruetter. 2023. Omnisemantics: Smooth Handling of Nondeterminism. ACM Trans. Program. Lang. Syst. 45, 1, Article 5 (March 2023), 43 pages. https://doi.org/10.1145/3579834
 
