@@ -11,9 +11,9 @@ MBSE promises to facilitate communication via technology (models & tools) amongs
 
 In the following I want to point out 10 challenges that need to be addressed if we want to achieve the full potential of Model-Based Systems Engineering (MBSE).
 
-In focusing on MBSE, we delve into challenges that are distinct from broader systems engineering concerns, as MBSE itself becomes the subject of study rather than the system being designed. 
+In focusing on MBSE, we delve into challenges that are distinct from broader systems engineering concerns, as MBSE itself becomes the subject of study rather than the system being designed.
 
-MBSE challenges pertain to refining the methodologies, tools, and frameworks that make MBSE robust, scalable, and applicable across various domains, while traditional systems engineering challenges center on the practicalities of designing, developing, and delivering complex systems in response to specific stakeholder requirements. 
+MBSE challenges pertain to refining the methodologies, tools, and frameworks that make MBSE robust, scalable, and applicable across various domains, while traditional systems engineering challenges center on the practicalities of designing, developing, and delivering complex systems in response to specific stakeholder requirements.
 
 By addressing MBSE-specific challenges, we aim to strengthen MBSE as a discipline, ensuring it can effectively support and enhance systems engineering practices. At the same time, applying MBSE in real-world scenarios provides valuable insights into its limitations, revealing areas where further refinement is necessary to maximize its impact in complex system development.
 
@@ -22,7 +22,7 @@ By addressing MBSE-specific challenges, we aim to strengthen MBSE as a disciplin
 These challenges emerge from studying and developing MBSE as a discipline. They focus on the theoretical, methodological, and practical aspects that make MBSE effective and scalable as an approach to complex system design.
 
 ### <a id="C1">C1</a>. Formalization of Models and Languages & Their Composition
-   
+
 At its core, MBSE relies on rigorous model formalization to enable consistency, composability, and correctness across complex systems. Yet, without a solid formal foundation for models and their languages, MBSE can devolve into fragmented representations that lack robustness. Formalized syntax and semantics across modeling languages, alongside methods for safe model composition, are fundamental to creating resilient, interoperable MBSE frameworks. Ensuring these fundamentals is crucial, especially in high-stakes domains where ambiguities in model definitions can lead to critical system vulnerabilities and operational breakdowns.
 
 ### <a id="C2">C2</a>. Breaking Through Model Heterogeneity and Tool Fragmentation
@@ -43,7 +43,7 @@ MBSE requires a single, authoritative source of truth (ASoT) to prevent outdated
 
 ### <a id="C7">C6</a>. Scaling MBSE for Complex Systems without Model Overload
 
-As systems grow more complex, MBSE must scale to handle intricate details without overwhelming teams. Techniques like modularization, abstraction layers, and model reduction can keep teams from drowning in detail, even as they tackle sprawling, interconnected subsystems. In defense, the stakes are even higher, as model overload can lead to operational blind spots. Smart, scalable practices in MBSE help teams maintain focus on the big picture while keeping track of critical details.
+As systems grow more complex, MBSE must scale to handle intricate details without overwhelming teams. Techniques like modularization, abstraction layers, and model reduction can keep teams from drowning in detail, even as they tackle sprawling, interconnected subsystems. In defense, the stakes are even higher, as model overload can lead to operational blind spots. Smart, scalable practices in MBSE help teams maintain focus on the big picture while keeping track of critical details. Approaches such as [Moldable Development](https://moldabledevelopment.com/) could prove instrumental for guiding the decision making process without requiring the manual exploration of a large web of interconnected heterogeneous abstractions.
 
 ### <a id="C6">C7</a>. Achieving a Unified MBSE Methodology to Replace Fragmented Practices
 
