@@ -67,7 +67,18 @@ Lastly, the SLI provides a way to project various semantical entities:
 
 The G∀min∃ Semantic Language Interface (SLI) offers a robust framework for modeling operational semantics, making it a powerful tool for analyzing system behavior. By capturing non-determinism and providing structured methods for evaluation and reduction, the SLI enhances the process of formal verification, ultimately contributing to the development of reliable and well-designed systems.
 
-This interface can be viewed as an operational implementation of the more theoretical approach presented in Omnisemantics [[1]](#1). In contrast to this approach, the SLI requires the existence of computable interpretation of the predicates that relate each state to a set of target states. This may seem like a very strong limitation compared to Omnisemantics, but it reflects the constraints imposed on language semantics by execution environments. Another manifestation of this constraint can be found in the context of TLA [[2]](#2), which also imposes the existence of a computable interpretation of predicates to enable the execution, debugging, and model checking of specifications [[3]](#3).
+This interface can be viewed as an operational implementation of the more theoretical approach presented in **Omnisemantics** [[1]](#1). In contrast to this approach, the **G∀min∃ SLI** requires the existence of **computably enumerable (c.e.) predicates** for the functions that define the state transitions: `initial`, `actions`, and `execute`. Specifically, the `initial` function must be a computably enumerable predicate that can enumerate all possible initial configurations, while the `actions` function must enumerate all valid actions available for a given configuration. Additionally, the `execute` function needs to be a computably enumerable predicate that enumerates the resulting configurations after executing an action in a given configuration.
+
+This requirement for **computable enumerability** may seem like a significant limitation compared to the more general framework of **Omnisemantics**, which does not impose such constraints [[1]](#1). However, these conditions reflect the *practical constraints imposed on language semantics by execution environments*, where enumerability is often essential to facilitate the exploration of the configuration space. This is particularly true in contexts like execution, debugging, and model-checking. In more theoretical applications, the G∀min∃ SLI could be used without imposing these constraints, but such an approach would sacrifice "executability."
+
+An additional manifestation of this constraint can be seen in the context of **TLA+** [[2]](#2), which, while allowing arbitrary predicates for general specifications and theorem proving, imposes a requirement for at least **computably enumerable (c.e.) predicates** when using **TLC** [[3]](#3) for execution, debugging, and model checking. In TLA+, the actions of a specification must be enumerable to enable the effective exploration of state transitions.
+
+The requirement for c.e. predicates is *necessary*, but in some cases, it may not be *sufficient*. Stronger constraints, such as *finitely enumerable predicates*, could be needed to ensure practical execution and analysis of specifications (e.g., exhaustive state-space exploration).
+
+<!-- 
+```scala
+valid_targets ≜ { t | ∀ a c, a ∈ actions c ∧ t ∈ execute a c }
+``` -->
 
 ## References
 
