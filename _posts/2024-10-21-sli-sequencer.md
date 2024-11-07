@@ -7,7 +7,7 @@ categories: ["research", "semantics"]
 published: true
 ---
 
-In a previous post I have discussed the **G∀min∃ Semantic Language Interface (SLI)**, which offers the capacity to capture any operational semantics while exposing the non-determinism. Here we will look at how we can use the Semantic Language Interface for language execution.
+In a [previous post](../gamine_sli) I have discussed the [**G∀min∃ Semantic Language Interface (SLI)**](../gamine_sli), which offers the capacity to capture any operational semantics while exposing the non-determinism. Here we will look at how we can use the Semantic Language Interface for language execution.
 
 ## Execution of SLI Semantics with the Sequencer
 
