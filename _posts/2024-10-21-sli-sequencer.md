@@ -61,6 +61,10 @@ Note also, that to explore various paths, the Sequencer would need to be execute
 
 ## Making the choices more explicit
 
+To render the setup more generic, it will be nice to make the choices more explicit. To achieve that we will extract the configuration and action selection in a ```determinization``` operator, that itself is a SLI (in general). To be even finer we will specialize the SLI semantics to encode deterministic semantics, and the ```determinization``` operator will then be able to expose a deterministic semantics, that embeds the proof of determinism syntactically.
+
+Here is the definition of deterministic specialization of an SLI semantics:
+
 ```scala
 deterministic_semantics(C A) ≜
     initial: Option C              //the set of initial configurations
@@ -68,15 +72,19 @@ deterministic_semantics(C A) ≜
     execute: A → C → Option C      //execute one action in one configuration
 ```
 
+The ```determinize``` operator takes any subject semantics ```s``` as input as well as two choice policies, one for configurations and another one for actions. And implements the three functions required by the deterministic_semantics interface, as follows:
+
 ```scala
-determinize(o, configurationPolicy, actionPolicy) 
+determinize(s, configurationPolicy, actionPolicy) 
     def initial 
-        configurationPolicy(o.initial)
+        configurationPolicy(s.initial)
     def actions
-        actionPolicy(c, o.actions)
+        actionPolicy(c, s.actions)
     def execute
-        configurationPolicy(o.execute a c)
+        configurationPolicy(s.execute a c)
 ```
+
+With these components available, we can revisit the previous Sequencer definition, and specialize it to the deterministic semantics, as follows:
 
 ```scala
 deterministic_sequencer(sem: DeterministicSemantics)
@@ -87,11 +95,15 @@ deterministic_sequencer(sem: DeterministicSemantics)
         current = sem.execute(action, current)
 ```
 
+To ```run``` an arbitrary subject semantics ```s``` we only have to feed it through the ```determinize``` semantic operator along with the selection policies. Then, to execute, we can apply the ```deterministic_sequencer``` sequencer to the result of ```determinize``` (that lazily encodes a deterministic interpretation of the subject semantics). The following pseudocode illustrates these connections:
+
 ```scala
 def run(sem: Semantics):
     dsem = determinize(sem, cpolicy, apolicy)
     deterministic_sequencer(dsem)
 ```
+
+For example, the following lines encode three selection policies:
 
 ```scala
 def any_policy(x: set X):
@@ -103,3 +115,9 @@ def first_policy(x: set X):
 def random_policy(x: set X):
     x.pick_random(rnd)
 ```
+
+where:
+
+- ```any_policy```, which, if applied, provides the same results as the initial Sequencer.
+- ```first_policy```, which, if applied, always chooses the first element amongst the configuration or actions.
+- ```random_policy```, which, if applied, provides us with a random walk.
