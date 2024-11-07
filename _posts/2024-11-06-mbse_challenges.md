@@ -55,7 +55,7 @@ MBSE demands a fresh mindset in systems development, but the learning curve is s
 
 ### <a id="C9">C9</a>. Balancing Formal Rigor with Human-Centered Qualitative Aspects
 
-MBSE traditionally emphasizes formal rigor to ensure precision, correctness, and reliability. However, this focus can unintentionally stifle creativity and frustrate users, especially when the tools and methods become overly constraining. Striking a balance between formal rigor and qualitative insights allows MBSE to embrace a more human-centered approach, one that empowers rather than limits engineers. By incorporating flexibility and fostering interpretative thinking, MBSE can evolve to support not only structured, repeatable processes but also the intuition and creativity essential to complex system design. This balance is critical to making MBSE both robust and adaptable to the nuanced needs of its users.
+MBSE traditionally emphasizes formal rigor to ensure precision, correctness, and reliability. However, this focus can unintentionally stifle creativity and frustrate users, especially when the tools and methods become overly constraining. Striking a balance between formal rigor and qualitative insights allows MBSE to embrace a more human-centered approach, one that empowers rather than limits engineers [[4]](#4). By incorporating flexibility and fostering interpretative thinking, MBSE can evolve to support not only structured, repeatable processes but also the intuition and creativity essential to complex system design. This balance is critical to making MBSE both robust and adaptable to the nuanced needs of its users.
 
 ### <a id="C10">C10</a>. Absence of Benchmarking Standards for Objective Evaluation
 
@@ -72,3 +72,5 @@ These challenges underscores the foundational need for formalized models and mod
 <a id="2">[2]</a> Jean-Christophe Bach, Antoine Beugnard, Joël Champeau, Fabien Dagnat, Sylvain Guérin, and Salvador Martínez. 2024. 10 years of Model Federation with Openflexo: Challenges and Lessons Learned. In Proceedings of the ACM/IEEE 27th International Conference on Model Driven Engineering Languages and Systems (MODELS '24). Association for Computing Machinery, New York, NY, USA, 25–36. https://doi.org/10.1145/3640310.3674084
 
 <a id="3">[3]</a> R. Mittal, R. Eslampanah, L. Lima, H. Vangheluwe and D. Blouin, "Towards an Ontological Framework for Validity Frames," 2023 ACM/IEEE International Conference on Model Driven Engineering Languages and Systems Companion (MODELS-C), Västerås, Sweden, 2023, pp. 801-805, doi: 10.1109/MODELS-C59198.2023.00128.
+
+<a id="4">[4]</a> Meadows, D., Richardson, J., & Bruckmann, G. (1982). Groping in the Dark: The First Decade of Global Modelling. Chichester, UK: John Wiley & Sons. ISBN 9780471100270
