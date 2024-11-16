@@ -1,18 +1,19 @@
 ---
 layout: page
 title: "DGAC ONEWAY"
-description: a project with a background image
-img: assets/img/12.jpg
+description: Modeling & Analyzing the Product Development Plan
+img: assets/img/emirates-airbus-a380-aircraft-science-technology-d6643c.jpg
 importance: 1
-category: work
+category: past
 ---
 
 | Acronym | ONEWAY |
 | Funding | The French Civil Aviation Authority (DGAC) |
 | Start | may 2021 |
 | End | may 2023 |
-| Budget | 28 million Euros |
+| Budget | 28 million € |
 | Partners | Airbus, Dassault Aviation, Liebherr Aerospace, Safran Electrical & Power, Safran Aerotechnics, Thales, Altran Technologies, Cap Gemini, Sopra Steria, CIMPA, IMT Mines Ales, University of Rennes 1, **ENSTA Bretagne**, and PragmaDev |
+| Coordinator | Airbus |
 
 ---
 
@@ -21,12 +22,13 @@ In the fierce landscape of global economic competition, France stands out for it
 Renowned for its sophisticated expertise, the French aeronautics sector excels in managing complex products, programs, and the intricacies of its value chain. Yet, it faces pressing challenges: the need for streamlined cycles, more efficient engineering activities, and ongoing enhancement of product and support system performance. Additionally, rapid integration of technological innovations and leveraging advances in emerging digital technologies are crucial. These challenges underscore an urgent need for a fundamental overhaul of engineering methodologies within the industry, laying the groundwork for the **ONEWAY project**.
 
 The **ONEWAY project** is designed to advance digital capabilities in the following areas:
+
 - Comprehensive digitalization of **Model-Based Systems Engineering (MBSE)** to enable analysis of design and validation data from multiple perspectives within an extended enterprise, covering the complete aircraft system and all levels of decomposition.
 - Versatile and scalable **configuration management** throughout product lifecycles, encompassing products, support systems, and product lines, enabling interactive collaboration across extended enterprises.
 - Enhanced decision-making support for the initiation and management of **Product Development Plans**, facilitating interactive project oversight within complex enterprise ecosystems.
 - Improved efficiency of **Integration, Verification, Validation, and Qualification (IVVQ)** activities, focusing on streamlined operations, testing, data processing, and massive testing capabilities.
 
-## Flux 3: Product Development Plan 
+## Flux 3: Product Development Plan
 
 In the highly competitive field of aircraft systems design, the **Program Preparation Phase (PPP)** is essential for evaluating numerous potential configurations and performance indicators, like time-to-market and resource optimization. This phase lays the groundwork for key decisions on program launches, relying heavily on a robust **Product Development Plan (PDP)** to support both decision-making and detailed program planning. However, the lack of formalized tools and methodologies limits the efficacy of PDP exploitation, creating a critical gap in efficient and informed program development.
 
