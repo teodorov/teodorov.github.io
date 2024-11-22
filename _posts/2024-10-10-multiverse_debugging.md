@@ -35,10 +35,10 @@ In computer science, the multiverse concept was first introduced in [[10]](#10) 
 
 <a id="10">[10]</a> Carmen Torres Lopez, Robbert Gurdeep Singh, Stefan Marr, Elisa Gonzalez Boix, and Christophe Scholliers. Multiverse Debugging: Non-Deterministic Debugging for Non-Deterministic Programs (Brave New Idea Paper). In 33rd European Conference on Object-Oriented Programming (ECOOP 2019). Leibniz International Proceedings in Informatics (LIPIcs), Volume 134, pp. 27:1-27:30, Schloss Dagstuhl – Leibniz-Zentrum für Informatik (2019) https://doi.org/10.4230/LIPIcs.ECOOP.2019.27
 
-<a id="11">[11]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Luka Le Roux. Temporal Breakpoints for Multiverse Debugging. Software Language Engineering 2023, Oct 2023, Lisbonne, Portugal.
+<a id="11">[11]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Luka Le Roux. Temporal Breakpoints for Multiverse Debugging. Software Language Engineering 2023, Oct 2023, Lisbonne, Portugal. [authors copy](http://mocs-artefacts.ensta-bretagne.fr/papers/multiverse-debugging/sle23_Temporal_Breakpoints_Multiverse-final.pdf)
 
-<a id="12">[12]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Luka Le Roux. Practical multiverse debugging through user-defined reductions. MODELS '22: ACM/IEEE 25th International Conference on Model Driven Engineering Languages and Systems, Oct 2022, Montreal Quebec Canada, Canada. pp.87-97, ⟨10.1145/3550355.3552447⟩.
+<a id="12">[12]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Luka Le Roux. Practical multiverse debugging through user-defined reductions. MODELS '22: ACM/IEEE 25th International Conference on Model Driven Engineering Languages and Systems, Oct 2022, Montreal Quebec Canada, Canada. pp.87-97, ⟨10.1145/3550355.3552447⟩. [authors copy](http://mocs-artefacts.ensta-bretagne.fr/papers/multiverse-debugging/models22_Multiverse_Abstract_Debugging.pdf)
 
-<a id="13">[13]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Loïc Lagadec. Debugging Paxos in the UML Multiverse. MODELS-C/MoDeVVa, Oct 2023, Västerås, Sweden.
+<a id="13">[13]</a> Matthias Pasquier, **Ciprian Teodorov**, Frédéric Jouault , Matthias Brun , Loïc Lagadec. Debugging Paxos in the UML Multiverse. MODELS-C/MoDeVVa, Oct 2023, Västerås, Sweden. [authors copy](http://mocs-artefacts.ensta-bretagne.fr/papers/multiverse-debugging/MoDeVVa_2023_Debugging_Paxos_in_the_Multiverse.pdf)
 
 <a id="14">[14]</a> Radek Pelanek. Reduction and Abstraction Techniques for Model Checking. Ph.D. Thesis, Masaryk University, 2006.
