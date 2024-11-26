@@ -1,4 +1,4 @@
-## Valentin BESNARD
+## [<i class="fa-brands fa-linkedin" aria-hidden="true"></i> Valentin BESNARD](https://www.linkedin.com/in/valentin-besnard-5862858a)
 
 | Period | 2017-2020 |
 | Title[en] | EMI: An Approach to Unify Analysis and Embedded Execution with a Controllable Model Interpreter |

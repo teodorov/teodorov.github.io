@@ -1,4 +1,4 @@
-## Tithnara Nicolas SUN
+## [<i class="fa-brands fa-linkedin" aria-hidden="true"></i> Tithnara Nicolas SUN](https://www.linkedin.com/in/tithnara-nicolas-sun-9b2954239)
 
 | Period | 2018-2022 |
 | Title[en] | Systems Modeling and Formal Analysis for Advanced Persistent Threats |
