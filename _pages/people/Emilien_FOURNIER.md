@@ -1,4 +1,4 @@
-## Emilien FOURNIER
+## [<i class="fa-brands fa-linkedin" aria-hidden="true"></i> Emilien FOURNIER](https://www.linkedin.com/in/emilien-fournier-phd-895833bb/)
 
 | Period | 2019-2022 |
 | Title[en] | Hardware Acceleration of Safety and Liveness Verification on Reconfigurable Architectures |

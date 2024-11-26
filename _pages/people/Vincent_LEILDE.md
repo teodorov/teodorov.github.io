@@ -1,4 +1,4 @@
-## Vincent LEILDE
+## [<i class="fa-brands fa-linkedin" aria-hidden="true"></i> Vincent LEILDE](https://www.linkedin.com/in/vincent-leilde-592b7553)
 
 | Period | 2017 - 2019 |
 | Title[en] | A Diagnosis Support for Formal Verification of Systems |

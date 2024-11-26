@@ -1,4 +1,4 @@
-## Matthias PASQUIER
+## [<i class="fa-brands fa-linkedin" aria-hidden="true"></i> Matthias PASQUIER](https://www.linkedin.com/in/matthias-pasquier-2ba462156)
 
 | Period | 2020 - 2024 |
 | Title[en] | Multiverse debugging of non-deterministic specifications |
