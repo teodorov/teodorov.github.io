@@ -17,14 +17,13 @@ profiles:
     #     <p>555 your office number</p>
     #     <p>123 your address street</p>
     #     <p>Your City, State 12345</p>
-
-  past:
-    # if you want to include more than one profile, just replicate the following block
-    # and create one content file for each profile inside _pages/
     - align: left
       image: people/matthias_pasquier.jpeg
       content: people/Matthias_PASQUIER.md # Matthias Pasquier
       image_circular: true #
+  past:
+    # if you want to include more than one profile, just replicate the following block
+    # and create one content file for each profile inside _pages/
     - align: right
       image: people/emilien.jpg
       content: people/Emilien_FOURNIER.md # Emilien FOURNIER
@@ -54,3 +53,6 @@ profiles:
       content: people/Jean-Philippe_SCHNEIDER.md
       image_circular: true 
 ---
+
+    # Papa Issa DIALLO
+    
