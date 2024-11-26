@@ -241,6 +241,7 @@ plugins:
   - jekyll-toc
   - jekyll-twitter-plugin
   - jemoji
+  - jekyll-figure
 
 # Sitemap settings
 defaults:
