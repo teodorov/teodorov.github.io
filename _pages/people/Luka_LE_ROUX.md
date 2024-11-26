@@ -1,4 +1,4 @@
-## [<i class="fa-brands fa-google-scholar"></i> Luka LE ROUX](https://scholar.google.com/citations?user=uYPZPmkAAAAJ&hl=en)
+## [<i class="ai ai-google-scholar"></i> Luka LE ROUX](https://scholar.google.com/citations?user=uYPZPmkAAAAJ&hl=en)
 
 | Period | 2013 - 2018 |
 | Title[en] | Critical embedded system verification, a non-intrusive approach to divide the initial challenge into a sound set of smaller ones |
