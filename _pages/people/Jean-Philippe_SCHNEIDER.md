@@ -5,4 +5,4 @@
 | Title[fr] | Les rôles : médiateurs dynamiques entre modèles systèmes et modèles de simulation |
 | defended | 11/2015 |
 | PhD advisors | <u>L. Lagadec</u>, Eric Senn, and J. Champeau |
-|| [![phd](http://www.obpcdl.org/images/thesis-logo.png){:style="max-width:50px"} manuscrit](https://theses.hal.science/tel-01986294/) |
+|| [![phd](/assets/img/thesis-logo.png){:style="max-width:50px"} manuscrit](https://theses.hal.science/tel-01986294/) |

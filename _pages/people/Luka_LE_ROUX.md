@@ -5,4 +5,4 @@
 | Title[fr] | Validation par parties et non-intrusive de systèmes embarqués |
 | defended  | 11/2018 |
 | PhD advisors | <u>Alain Plantec</u>, and Ciprian Teodorov |
-|| [![phd](http://www.obpcdl.org/images/thesis-logo.png){:style="max-width:50px"} manuscrit](http://mocs-artefacts.ensta-bretagne.fr/papers/phd-manuscript-Luka-Le_Roux_2018.pdf) |
+|| [![phd](/assets/img/thesis-logo.png){:style="max-width:50px"} manuscrit](http://mocs-artefacts.ensta-bretagne.fr/papers/phd-manuscript-Luka-Le_Roux_2018.pdf) |
