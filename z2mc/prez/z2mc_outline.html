@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>z2mc_outline</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="slide-version-of-the-outline-key-ideas"
+class="slide level3">
+<h3>Slide Version of the Outline: <strong>Key Ideas</strong></h3>
+</section>
+<section id="traversals" class="slide level3">
+<h3><strong>1. Traversals</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Understand graph traversals and decouple
+them from graph representation.<br />
+</li>
+<li><strong>Goal</strong>: Search a graph for vertices that satisfy a
+predicate.</li>
+</ul>
+</section>
+<section id="piecewise-relations" class="slide level3">
+<h3><strong>2. Piecewise Relations</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Generalize graphs to piecewise
+relations.<br />
+</li>
+<li><strong>Tools Introduced</strong>:
+<ul>
+<li>A simple textual DSL for encoding relations.<br />
+</li>
+<li>The <strong>G∀min∃ Semantic Language Interface (SLI)</strong> with
+three functions:
+<ul>
+<li><strong>initial</strong>: Starting states.<br />
+</li>
+<li><strong>actions</strong>: State transitions.<br />
+</li>
+<li><strong>execute</strong>: Apply actions.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="soup-dsl" class="slide level3">
+<h3><strong>3. Soup DSL</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Create an embedded Python DSL, “Soup,”
+for writing specifications.<br />
+</li>
+<li><strong>Tools Introduced</strong>:
+<ul>
+<li><strong>LambdaPieces</strong>: Representing piecewise relations with
+Python lambdas.<br />
+</li>
+<li><strong>evaluate</strong>: Verify state and step invariants (safety
+properties).<br />
+</li>
+</ul></li>
+<li><strong>Verification Goals</strong>:
+<ul>
+<li><strong>A[] (step|state)-predicate</strong>: Always true.<br />
+</li>
+<li><strong>E&lt;&gt; (step|state)-predicate</strong>: Possibly
+true.<br />
+</li>
+<li>Absence of deadlocks.</li>
+</ul></li>
+</ul>
+</section>
+<section id="dependent-semantics" class="slide level3">
+<h3><strong>4. Dependent Semantics</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Enable expressive property verification
+by evolving semantics based on behavior.<br />
+</li>
+<li><strong>New Capability</strong>: Observers and finite regular
+property verification.<br />
+</li>
+<li><strong>Extension</strong>:
+<ul>
+<li>Adds an <strong>input</strong> argument to the SLI.</li>
+</ul></li>
+</ul>
+</section>
+<section id="liveness-verification" class="slide level3">
+<h3><strong>5. Liveness Verification</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Detect accepting cycles in Büchi
+automata.<br />
+</li>
+<li><strong>Steps</strong>:
+<ol type="1">
+<li>Understand the difference between Büchi automata and NFA.<br />
+</li>
+<li>Implement cycle detection algorithms:
+<ul>
+<li>Nested Reachability.<br />
+</li>
+<li>Advanced methods (e.g., ndfs_gs09_cdlp05).</li>
+</ul></li>
+</ol></li>
+</ul>
+</section>
+<section id="algorithms-as-dependent-singleton-semantics"
+class="slide level3">
+<h3><strong>6. Algorithms as Dependent Singleton Semantics</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Reinterpret traversal algorithms as
+dependent semantics.<br />
+</li>
+<li><strong>Key Insight</strong>: Algorithms are a special case with:
+<ul>
+<li><strong>One implicit specification</strong>.<br />
+</li>
+<li>Graph data as input.</li>
+</ul></li>
+</ul>
+</section>
+<section id="underapproximations" class="slide level3">
+<h3><strong>7. Underapproximations</strong></h3>
+<ul>
+<li><strong>Core Idea</strong>: Mitigate state-space explosion with
+practical debugging tools.<br />
+</li>
+<li><strong>Techniques Discussed</strong>:
+<ul>
+<li>Hash-compaction.<br />
+</li>
+<li>Bitstate hashing.<br />
+</li>
+<li>Predicate abstraction.<br />
+</li>
+<li>Variable removal.</li>
+</ul></li>
+</ul>
+</section>
+<section id="potential-future-chapters" class="slide level3">
+<h3><strong>Potential Future Chapters</strong></h3>
+<ol type="1">
+<li><strong>Simulated Annealing</strong>: Optimization with G∀min∃
+SLI.<br />
+</li>
+<li><strong>A</strong>*: AI-inspired search using G∀min∃ SLI.<br />
+</li>
+<li><strong>Partial Order Reductions</strong>: Simplify concurrent
+systems.<br />
+</li>
+<li><strong>Refinement Checking</strong>: Verify implementation
+correctness.<br />
+</li>
+<li><strong>Overapproximations</strong>: Complement underapproximations
+with broader searches.</li>
+</ol>
+</section>
+<section id="strengths" class="slide level3">
+<h3><strong>Strengths</strong>:</h3>
+<ul>
+<li><strong>Progressive Learning Curve</strong>: The sequence of
+chapters introduces concepts step-by-step, ensuring that readers can
+follow along without being overwhelmed.</li>
+<li><strong>Focus on Implementation</strong>: Starting with traversals
+and decoupling them from the graph representation ensures readers
+understand fundamental building blocks.</li>
+<li><strong>G∀min∃ SLI</strong>: Highlighting this interface and its
+components throughout the book creates a consistent thread.</li>
+<li><strong>Practical Tools</strong>: Introducing DSLs and dependent
+semantics aligns well with the book’s focus on practical
+implementation.</li>
+</ul>
+</section>
+<section id="suggestions" class="slide level3">
+<h3><strong>Suggestions</strong>:</h3>
+<ul>
+<li>Consider adding a <strong>Preface or Introduction Chapter</strong>
+that sets the stage for the book, explaining the G∀min∃ SLI and the
+philosophy behind the practical approach.</li>
+<li>In <strong>Soup DSL</strong>, provide a clear transition from
+textual DSLs to Python DSLs, as this shift can sometimes be confusing to
+readers unfamiliar with embedded DSLs.</li>
+<li>For <strong>Liveness Verification</strong>, tying the cycle
+detection algorithms to real-world applications could make the material
+more engaging.</li>
+<li>In <strong>Underapproximations</strong>, a case study demonstrating
+debugging with underapproximations could be impactful.</li>
+</ul>
+</section>
+<section id="potential-future-chapters-1" class="slide level3">
+<h3><strong>Potential Future Chapters</strong>:</h3>
+<ul>
+<li><strong>Simulated Annealing and A</strong>*: These could appeal to
+readers interested in AI and optimization, broadening the book’s
+audience.</li>
+<li><strong>Partial Order Reductions</strong>: A practical approach to
+reducing complexity, which complements underapproximations.</li>
+<li><strong>Real-World Examples</strong>: A chapter focusing on
+end-to-end applications of model-checking in domains like software
+verification or hardware design could provide closure.</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
