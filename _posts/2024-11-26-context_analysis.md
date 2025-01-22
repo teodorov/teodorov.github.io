@@ -9,7 +9,7 @@ published: false
 
 ## Understanding the Context: Questions That Shape Systems
 
-You have to design a system! Before diving into solutions or creating intricate models, it’s essential to ask the right questions during **context analysis**. This phase sets the foundation for effective system design by uncovering the needs, constraints, and interactions within the **problem space**.
+You have to design a system! Before diving into solutions or creating intricate models, it's essential to ask the right questions during **context analysis**. This phase sets the foundation for effective system design by uncovering the needs, constraints, and interactions within the **problem space**.
 
 Models are powerful tools for making sense of complex systems, but they are only as useful as the questions they help answer. By focusing on the "what," "why," and "who" of context analysis, we pave the way for clarity, alignment, and informed decision-making. This post explores the critical questions every context analysis should address — and, maybe, what models can help answering them.
 
@@ -427,3 +427,45 @@ Notes on Edge Cases:
 | **Q08 Assumptions**                   | ✔️  |    | ~  | ~  | ~  | ~  |    | ✔️  | ~  | ~   |     | ~   |
 | **Q09 Impact on Performance**         | ~  |    | ~  | ~  | ✔️  | ~  | ✔️  | ✔️  | ~  | ~   |     | ✔️   |
 | **Q10 Risks**                         | ~  | ~  | ~  |    | ~  | ~  | ✔️  | ~  |    | ✔️   | ~   | ✔️   |
+
+
+
+
+## Key dimensions
+
+## Key Dimensions of Societal and Ethical Impacts
+
+1. Safety and Well-being
+   
+   Question: Does the system pose risks to human life or health?
+   Example: In an autonomous vehicle system, how does it ensure pedestrian safety, especially in unpredictable environments?
+
+2. Environmental Impact
+   
+   Question: Does the system contribute to pollution, resource depletion, or ecological harm? Can it be designed to minimize its carbon footprint?
+   Example: A manufacturing system might evaluate its energy consumption and waste management policies.
+
+3. Privacy and Data Protection
+
+Question: Does the system handle sensitive data responsibly, respecting user privacy and compliance with regulations like GDPR?
+Example: For a smart city monitoring system, ensuring citizens’ data is anonymized and protected is crucial.
+
+4. Equity and Accessibility
+
+Question: Does the system serve all relevant stakeholders fairly, including marginalized or underrepresented groups?
+Example: A public transportation system should consider accessibility for people with disabilities or those in low-income communities.
+
+5. Bias and Fairness
+
+Question: Could the system unintentionally reinforce biases or inequalities?
+Example: Machine learning systems for hiring decisions might perpetuate biases in training data unless actively addressed.
+
+6. Accountability and Governance
+
+Question: Who is accountable if the system causes harm or fails? Are governance mechanisms in place?
+Example: A financial algorithm causing market instability needs clear accountability and robust safeguards.
+
+7. Long-term Societal Effects
+
+Question: Could the system disrupt societal norms, cultural practices, or economic stability in unintended ways?
+Example: Automation might increase efficiency but also displace workers, requiring strategies to mitigate economic inequality.
