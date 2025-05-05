@@ -2,7 +2,7 @@
 layout: page
 title: "ANR GEMINI3D"
 description: Digital Twins for 3D Printing
-img: assets/img/3dprinter.jpg
+img: assets/img/3dprinter.png
 importance: 1
 category: current
 ---

@@ -6,7 +6,7 @@ subtitle: <a href='https://labsticc.fr/en'>Lab-STICC UMR 6285</a>, <a href='http
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: prof_pic.png
   image_circular: false
   more_info: >
     <p>N120</p>
