@@ -20,6 +20,40 @@ We will keep it as simple as possible since the concepts here are well-known wit
 5. Independent of the model `roots(); next()`
 6. OnEntry callback --> See another blog entry for a more generic version
 
+## Introducing the Rooted Graph
+
+Graphs are among the most versatile and expressive structures in computer science. They naturally capture a wide range of relationships: from links between websites, to connections in a transportation network, to dependencies in a software project. However, while graphs are powerful, traversing them—systematically exploring their structure—is far from trivial.
+
+One key insight in building robust traversal algorithms is recognizing that how a graph is represented should not affect the traversal logic. In other words, our algorithms should not be entangled with specific data structures. This separation of concerns is not just a matter of good software engineering—it is essential if we want our tools to scale across domains, adapt to new applications, and support multiple input formats.
+
+Yet, there's a more fundamental problem. In many real-world cases, we're not simply interested in an arbitrary traversal of a graph. We want to explore a particular part of it, starting from certain points of interest and systematically branching out. This requirement naturally leads us to a structure that we call a rooted graph.
+
+A rooted graph is not just a graph, it is a graph together with a distinguished set (or multiset) of roots. These roots represent the starting points of traversal. They might correspond to known initial states in a system, entry nodes in a program's control flow, or nodes we suspect are critical in a network. By explicitly incorporating the notion of roots, we make a commitment: we are not trying to understand the entire graph blindly, but to explore what can be reached and discovered from known anchors.
+
+This view immediately raises the question: how do we best represent such a rooted graph? There is no universally optimal way to store a graph. Sparse graphs benefit from adjacency lists, dense ones may do better with matrices, and large-scale graphs might be stored in files or streamed from a database. The rooted graph abstraction allows us to factor out the representation details and focus on what matters: the reachable structure from a set of entry points.
+
+In doing so, we create a flexible interface for algorithms. An algorithm that operates on rooted graphs needs only to know two things: how to obtain the roots, and how to get the neighbors of a given vertex. Everything else (the storage, the indexing, even the vertex types) becomes an implementation detail. This minimal contract is sufficient to power sophisticated traversals, verifications, and ultimately the core mechanisms behind model-checking.
+
+In this chapter, we will progressively build this abstraction, beginning with simple, explicit graphs, and moving toward more expressive and efficient representations. Along the way, we will isolate our traversal algorithms from specific data structures, creating a flexible foundation for the rest of the book.
+
+## Expanding the Rooted Graph Concept: Extrinsic vs. Intrinsic Graphs
+
+The notion of a rooted graph brings us a step closer to modular, general-purpose traversal algorithms. But it also opens the door to a deeper realization: not all graphs are known in advance.
+
+Some graphs are extrinsic: they are explicitly represented, stored in memory or on disk, with their vertices and edges fully known before any traversal begins. These are the typical graphs that one might find in textbooks or programming assignments: adjacency matrices, edge lists, and hash maps. In such cases, all of the data is available up front, and the graph is simply a static data structure to be navigated.
+
+However, many graphs we care about in model-checking are intrinsic. They are not fully constructed before use, nor are they even necessarily finite. Instead, these graphs are defined procedurally. Their structure is revealed step-by-step as we traverse them, with each expansion generating new nodes and edges on the fly. Think of the state space of a program: it is often far too large (or even infinite) to be built explicitly, yet we can compute the successors from any given state.
+
+To make this concept more concrete, consider the example of walking a social network graph using internet requests. Suppose you start from a single user and wish to explore their connections: friends, friends of friends, and so on. Each node in the graph represents a user profile, and edges represent "friend" relationships. But the graph is not known in advance. Instead, each node's neighbors are discovered by querying a server for that user's friends. This is a classic intrinsic graph: its vertices and edges are fetched lazily, on-demand, during traversal. If the traversal stops early (e.g., after finding a particular person or after a certain depth), large parts of the graph remain unexplored and unmaterialized.
+
+This is where the rooted graph abstraction shines. By requiring only two capabilities from a graph, (1) the ability to provide a set of roots, and (2) the ability to compute the neighbors of a vertex, we enable traversals that work seamlessly over both extrinsic and intrinsic graphs.
+
+This abstraction lets us unify a broad class of graphs under a common interface. Whether the graph is a static list of nodes and edges read from a file, or a dynamic exploration of system states driven by simulation or symbolic execution, the traversal algorithm sees only the operations it needs.
+
+In later sections, we will see how this perspective allows us to apply the same core traversal logic to a wide range of applications: from solving games like the Tower of Hanoi, to verifying reachability properties in software models. The rooted graph interface becomes the contract between the traversal algorithm and the underlying system—regardless of whether that system is fully known or just gradually revealed.
+
+This perspective, of graphs not just as data, but as behaviors, is foundational to the rest of the book.
+
 ## A Rooted Graph and an Explicit Graph Data Structure
 
 A graph is defined as a tuple `G=(V, E)` where `V` is an arbitrary set of vertices, and `E` is a binary relation between the elements in `V`.
